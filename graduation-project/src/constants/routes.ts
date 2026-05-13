@@ -1,0 +1,23 @@
+export const APP_ROUTES = {
+  home: '/',
+  login: '/login',
+  logout: '/logout',
+  signup: '/signup',
+  forgotPassword: '/forgotPassword',
+  resetPassword: '/resetPassword',
+  changePassword: '/change-password',
+  confirmEmail: '/confirm-email',
+  search: '/search',
+  restaurantDetails: '/restaurant',
+  restaurants: '/restaurants',
+  restaurantAdmin: '/admin/restaurants',
+  reserve: '/reserve',
+  reservationConfirmed: '/reservationConfirmed',
+  myReservations: '/my-reservations',
+  favorites: '/favorites',
+  profile: '/profile',
+  spots: '/spots',
+  about: '/about',
+  cafes: '/cafes',
+} as const;
+

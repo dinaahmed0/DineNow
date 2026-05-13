@@ -1,0 +1,34 @@
+export default function Loader() {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+      <div className="bg-white rounded-lg shadow-xl p-8 flex flex-col items-center gap-4">
+        {/* Custom SVG Spinner */}
+        <div className="relative w-16 h-16">
+          <svg 
+            className="animate-spin text-emerald-700" 
+            width="64" 
+            height="64" 
+            viewBox="0 0 24 24" 
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle 
+              className="opacity-25" 
+              cx="12" 
+              cy="12" 
+              r="10" 
+              stroke="currentColor" 
+              strokeWidth="4"
+            />
+            <path 
+              className="opacity-75" 
+              fill="currentColor" 
+              d="M4 12a8 8 0 018-8 8 0 01-8 8 0 018-8 8 0 018 8z"
+            />
+          </svg>
+        </div>
+        <p className="text-gray-600 font-medium">Loading...</p>
+      </div>
+    </div>
+  );
+}
