@@ -12,6 +12,7 @@ export interface ReservationUserItem {
   id: number;
   userName: string;
   restaurantName: string;
+  restaurantId: number;
   tableNumber: number;
   startDateTime: string;
   endDateTime: string;

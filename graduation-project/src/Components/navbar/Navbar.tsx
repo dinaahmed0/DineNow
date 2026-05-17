@@ -37,6 +37,14 @@ export default function Navbar() {
     }, 1000);
   };
 
+  const capitalizeName = (name: string) => {
+  if (!name) return 'John Doe';
+  return name
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+};
+
   const isActive = (path: string) => location.pathname === path;
 
   return (
@@ -58,7 +66,9 @@ export default function Navbar() {
                 className="flex items-center gap-2 px-3 py-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-emerald-600 md:p-0 transition-all duration-200 cursor-pointer"
               >
                 <FaUser className="text-sm" />
-                <span className="hidden md:block">{user?.displayName}</span>
+                <h2 className=" text-gray-900">
+                  {capitalizeName(user?.displayName)}
+                </h2>
                 <FaChevronDown className="text-xs" />
               </button>
               

@@ -26,6 +26,14 @@ import FoodOrderingStep from './FoodOrderingStep';
 import { createReservation } from '../../services/reservation';
 import { useAuth } from '../../contexts/AuthContext';
 
+// In ReservationPage.tsx, before the API call
+// const token = localStorage.getItem('token');
+// console.log('Has token?', !!token);
+// console.log('Token value:', token?.substring(0, 20) + '...');
+
+
+
+
 const combineDateAndTime = (dateString: string, timeString: string): Date => {
   const date = new Date(dateString);
   const match = timeString.match(/(\d+):(\d+)\s*(AM|PM)/i);
@@ -200,6 +208,13 @@ export default function ReservationPage() {
     e.preventDefault();
     
     if (!validateStep2()) return;
+    
+    // Check if user is authenticated
+    if (!user || !user.token) {
+      alert('Please login to create a reservation.');
+      navigate('/login');
+      return;
+    }
     
     // If food is ordered, payment must be completed first
     if (orderedFood.length > 0 && !paymentCompleted) {

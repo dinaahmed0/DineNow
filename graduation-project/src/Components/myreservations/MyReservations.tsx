@@ -168,7 +168,7 @@ const MyReservations = () => {
     setIsSubmittingReview(true);
     try {
       const reviewData: AddReviewCommand = {
-        restaurantId: selectedReservationForReview.id,
+        restaurantId: selectedReservationForReview.restaurantId,
         rating: reviewRating,
         comment: reviewComment.trim()
       };

@@ -1,4 +1,4 @@
-import { API_BASE_URL } from '../config';
+import { apiGet, apiPost } from './api/client';
 
 export interface Review {
   id: number;
@@ -32,39 +32,22 @@ export interface ReviewsListResponse {
 
 export const reviewService = {
   async addReview(restaurantId: number, rating: number, comment: string): Promise<ReviewResponse> {
-    const response = await fetch(`${API_BASE_URL}/api/Restaurant/add-review`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-      },
-      body: JSON.stringify({
-        restaurantId,
-        rating,
-        comment,
-      }),
+    return apiPost<ReviewResponse>('/api/Restaurant/add-review', {
+      restaurantId,
+      rating,
+      comment,
     });
-
-    if (!response.ok) {
-      throw new Error(`Failed to add review: ${response.statusText}`);
-    }
-
-    return response.json();
   },
 
-  async getReviews(filters?: any): Promise<ReviewsListResponse> {
-    const params = new URLSearchParams(filters || {});
-    const response = await fetch(`${API_BASE_URL}/api/Restaurant/get-reviews?${params.toString()}`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-      },
-    });
+  async getReviews(filters?: { pageIndex?: number; pageSize?: number }): Promise<ReviewsListResponse> {
+    const params = new URLSearchParams();
+    if (filters?.pageIndex !== undefined) params.set('pageIndex', String(filters.pageIndex));
+    if (filters?.pageSize !== undefined) params.set('pageSize', String(filters.pageSize));
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch reviews: ${response.statusText}`);
-    }
-
-    return response.json();
+    const qs = params.toString();
+    const path = `/api/Restaurant/get-reviews${qs ? `?${qs}` : ''}`;
+    return apiGet<ReviewsListResponse>(path);
   },
 };
+
+

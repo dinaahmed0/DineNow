@@ -35,8 +35,12 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-const readAccessToken = (data: any): string => data?.token || data?.accessToken || '';
-const readRefreshToken = (data: any): string => data?.refreshToken || data?.refresh || '';
+const readAccessToken = (data: any): string =>
+  data?.token || data?.accessToken || data?.access_token || data?.AccessToken || '';
+
+const readRefreshToken = (data: any): string =>
+  data?.refreshToken || data?.refresh || data?.refresh_token || data?.RefreshToken || '';
+
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);

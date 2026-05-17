@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ReviewsList.css';
-import { reviewService, Review } from '../../services/reviewService';
+import { reviewService } from '../../services/reviewService';
+import type { Review } from '../../services/reviewService';
 
 interface ReviewsListProps {
   pageSize?: number;
@@ -15,7 +16,7 @@ export const ReviewsList: React.FC<ReviewsListProps> = ({ pageSize = 10 }) => {
 
   useEffect(() => {
     fetchReviews();
-  }, [pageIndex]);
+  }, [pageIndex, pageSize]);
 
   const fetchReviews = async () => {
     setIsLoading(true);

@@ -186,90 +186,22 @@ export async function deleteRestaurant(id: number): Promise<void> {
 }
 
 // Review operations
-export async function addReview(reviewData: AddReviewCommand): Promise<GetReviewQuery> {
-  if (USE_MOCK_MODE) {
-    console.log('MOCK MODE: Adding review:', reviewData);
-    await new Promise(resolve => setTimeout(resolve, 800));
+// NOTE: reviews are implemented in `services/reviewService.ts`.
+// This file keeps compatibility exports for components that still import from `services/restaurant`.
+import { reviewService } from './reviewService';
 
-    const newReview: GetReviewQuery = {
-      id: Math.floor(Math.random() * 1000) + 100,
-      restaurantId: reviewData.restaurantId,
-      userId: reviewData.userId || 1,
-      userName: "Test User",
-      rating: reviewData.rating,
-      comment: reviewData.comment,
-      createdAt: new Date().toISOString()
-    };
-
-    return newReview;
-  }
-
-  return apiPost<GetReviewQuery>('/api/Restaurant/add-review', reviewData);
+export async function addReview(reviewData: AddReviewCommand): Promise<any> {
+  return reviewService.addReview(reviewData.restaurantId, reviewData.rating, reviewData.comment);
 }
 
-export async function getRestaurantReviews(restaurantId: number, page = 1, pageSize = 10): Promise<GetReviewQueryPagination> {
-  if (USE_MOCK_MODE) {
-    const mockReviews: GetReviewQuery[] = [
-      {
-        id: 1,
-        restaurantId: restaurantId,
-        userId: 1,
-        userName: "John Doe",
-        rating: 5,
-        comment: "Amazing food and excellent service! Will definitely come back. The pasta was perfectly cooked and the wine selection was impressive.",
-        createdAt: "2024-01-20T18:30:00Z"
-      },
-      {
-        id: 2,
-        restaurantId: restaurantId,
-        userId: 2,
-        userName: "Jane Smith",
-        rating: 4,
-        comment: "Great atmosphere and delicious pasta. A bit pricey but worth it for special occasions. The tiramisu was exceptional!",
-        createdAt: "2024-01-18T19:15:00Z"
-      },
-      {
-        id: 3,
-        restaurantId: restaurantId,
-        userId: 3,
-        userName: "Mike Johnson",
-        rating: 5,
-        comment: "Best Italian restaurant in town! The wood-fired pizzas are incredible and the service is always attentive.",
-        createdAt: "2024-01-15T20:00:00Z"
-      },
-      {
-        id: 4,
-        restaurantId: restaurantId,
-        userId: 4,
-        userName: "Sarah Wilson",
-        rating: 4,
-        comment: "Lovely evening with great food. The outdoor seating area is beautiful in summer. Would recommend for date nights.",
-        createdAt: "2024-01-12T17:45:00Z"
-      },
-      {
-        id: 5,
-        restaurantId: restaurantId,
-        userId: 5,
-        userName: "David Brown",
-        rating: 5,
-        comment: "Exceptional dining experience! Every dish was perfectly prepared and presented. The sommelier's recommendations were spot on.",
-        createdAt: "2024-01-10T19:30:00Z"
-      }
-    ];
-
-    await new Promise(resolve => setTimeout(resolve, 600));
-
-    const averageRating = mockReviews.reduce((sum, review) => sum + review.rating, 0) / mockReviews.length;
-
-    return {
-      reviews: mockReviews,
-      totalCount: mockReviews.length,
-      currentPage: page,
-      pageSize,
-      totalPages: Math.ceil(mockReviews.length / pageSize),
-      averageRating: Math.round(averageRating * 10) / 10
-    };
-  }
-
-  return apiGet<GetReviewQueryPagination>(`/api/Restaurant/get-reviews?restaurantId=${restaurantId}&page=${page}&pageSize=${pageSize}`);
+export async function getRestaurantReviews(
+  restaurantId: number,
+  page = 1,
+  pageSize = 10
+): Promise<any> {
+  // Backend reviews endpoint does not include restaurantId filtering in the provided schema,
+  // so we ignore restaurantId for now and rely on backend behavior.
+  return reviewService.getReviews({ pageIndex: page - 1, pageSize });
 }
+
+
