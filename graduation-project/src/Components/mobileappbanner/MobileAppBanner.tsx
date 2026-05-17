@@ -6,57 +6,20 @@ export default function MobileAppBanner() {
 
   return (
     <>
-      {/* Floating Banner - Shows after scroll */}
-      {/* {scrolled && (
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 animate-slide-up">
-          <div className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl shadow-2xl p-4 w-[calc(100vw-2rem)] max-w-lg border border-gray-700 backdrop-blur-sm bg-opacity-95">
-            <div className="flex items-center gap-3">
-              
-              <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center shadow-lg">
-                <img src={logo} alt="App Logo" className="w-12 h-12" />
-              </div>
-              
-              <div className="flex-1">
-                <h4 className="text-white font-semibold text-sm">Get the App</h4>
-                <p className="text-gray-400 text-xs">Book faster & get exclusive deals</p>
-                <div className="flex items-center gap-1 mt-1">
-                  <FiStar className="w-3 h-3 text-yellow-400 fill-yellow-400" />
-                  <FiStar className="w-3 h-3 text-yellow-400 fill-yellow-400" />
-                  <FiStar className="w-3 h-3 text-yellow-400 fill-yellow-400" />
-                  <FiStar className="w-3 h-3 text-yellow-400 fill-yellow-400" />
-                  <FiStar className="w-3 h-3 text-yellow-400 fill-yellow-400" />
-                  <span className="text-gray-400 text-xs ml-1">4.9</span>
-                </div>
-              </div>
-              
-              <button className="bg-emerald-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-emerald-600 transition shadow-lg">
-                Download
-              </button>
-              
-              {isDismissible && (
-                <button onClick={handleClose} className="text-gray-500 hover:text-gray-300">
-                  <FiX className="w-4 h-4" />
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-      )} */}
-
       {/* Main Banner - Hero Style */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-emerald-900 rounded-3xl shadow-2xl">
+      <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-[#6B8A62] rounded-3xl shadow-2xl">
         {/* Animated Background Elements */}
         <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-0 -right-32 w-64 h-64 bg-emerald-500 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 -left-32 w-64 h-64 bg-emerald-600 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-emerald-400 rounded-full blur-3xl opacity-20"></div>
+          <div className="absolute top-0 -right-32 w-64 h-64 bg-[#6B8A62] rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 -left-32 w-64 h-64 bg-[#5A7352] rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#6B8A62] rounded-full blur-3xl opacity-20"></div>
         </div>
 
         {/* Grid Pattern Overlay */}
         <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-0 -right-32 w-64 h-64 bg-emerald-500 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 -left-32 w-64 h-64 bg-emerald-600 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-emerald-400 rounded-full blur-3xl opacity-20"></div>
+          <div className="absolute top-0 -right-32 w-64 h-64 bg-[#6B8A62] rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 -left-32 w-64 h-64 bg-[#5A7352] rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#6B8A62] rounded-full blur-3xl opacity-20"></div>
         </div>
 
         <div className="relative px-6 py-10 md:py-12 md:px-12">
@@ -65,11 +28,11 @@ export default function MobileAppBanner() {
             <div className="flex-1 text-center lg:text-left">
               {/* Badge */}
               <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1 mb-6 border border-white/20">
-                <FiSmartphone className="w-3 h-3 text-emerald-300" />
-                <span className="text-xs font-medium text-emerald-300 uppercase tracking-wider">
+                <FiSmartphone className="w-3 h-3 text-[#6B8A62]" />
+                <span className="text-xs font-medium text-[#6B8A62] uppercase tracking-wider">
                   Mobile App
                 </span>
-                <span className="bg-emerald-500 text-white text-xs px-2 py-0.5 rounded-full">
+                <span className="bg-[#6B8A62] text-white text-xs px-2 py-0.5 rounded-full">
                   Free
                 </span>
               </div>
@@ -78,7 +41,7 @@ export default function MobileAppBanner() {
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
                 Reserve Your Table
                 <br />
-                <span className="bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[#6B8A62] to-[#8AAA7A] bg-clip-text text-transparent">
                   On The Go
                 </span>
               </h2>
@@ -99,7 +62,7 @@ export default function MobileAppBanner() {
                   "Favorite spots"
                 ].map((feature, i) => (
                   <div key={i} className="flex items-center gap-2">
-                    <FiCheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                    <FiCheckCircle className="w-4 h-4 text-[#6B8A62] flex-shrink-0" />
                     <span className="text-gray-300 text-sm">{feature}</span>
                   </div>
                 ))}
@@ -134,7 +97,7 @@ export default function MobileAppBanner() {
                 </div>
                 <div className="w-px h-4 bg-gray-600"></div>
                 <div className="flex items-center gap-1">
-                  <span className="text-emerald-400 text-sm">✓</span>
+                  <span className="text-[#6B8A62] text-sm">✓</span>
                   <span className="text-gray-400 text-xs">#1 Dining App</span>
                 </div>
               </div>
@@ -161,7 +124,7 @@ export default function MobileAppBanner() {
                       {/* Restaurant Card Mock */}
                       <div className="bg-white/5 rounded-xl p-3">
                         <div className="flex gap-3">
-                          <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-lg"></div>
+                          <div className="w-12 h-12 bg-gradient-to-br from-[#6B8A62] to-[#5A7352] rounded-lg"></div>
                           <div className="flex-1">
                             <div className="h-3 bg-white/20 rounded w-3/4 mb-2"></div>
                             <div className="h-2 bg-white/10 rounded w-1/2"></div>
@@ -170,20 +133,20 @@ export default function MobileAppBanner() {
                       </div>
                       
                       {/* Booking Mock */}
-                      <div className="bg-emerald-500/20 rounded-xl p-3 border border-emerald-500/30">
+                      <div className="bg-[#6B8A62]/20 rounded-xl p-3 border border-[#6B8A62]/30">
                         <div className="flex justify-between items-center">
                           <div>
-                            <div className="h-3 bg-emerald-400/50 rounded w-20 mb-2"></div>
-                            <div className="h-2 bg-emerald-400/30 rounded w-32"></div>
+                            <div className="h-3 bg-[#6B8A62]/50 rounded w-20 mb-2"></div>
+                            <div className="h-2 bg-[#6B8A62]/30 rounded w-32"></div>
                           </div>
-                          <div className="w-8 h-8 bg-emerald-500 rounded-lg"></div>
+                          <div className="w-8 h-8 bg-[#6B8A62] rounded-lg"></div>
                         </div>
                       </div>
                       
                       {/* Bottom Nav Mock */}
                       <div className="flex justify-around pt-3">
                         <div className="w-6 h-6 bg-white/20 rounded"></div>
-                        <div className="w-6 h-6 bg-emerald-400 rounded"></div>
+                        <div className="w-6 h-6 bg-[#6B8A62] rounded"></div>
                         <div className="w-6 h-6 bg-white/20 rounded"></div>
                         <div className="w-6 h-6 bg-white/20 rounded"></div>
                       </div>
@@ -202,25 +165,12 @@ export default function MobileAppBanner() {
                 </div>
 
                 {/* Decorative Elements */}
-                <div className="absolute -top-6 -left-6 w-16 h-16 bg-emerald-500 rounded-full opacity-20 blur-xl"></div>
-                <div className="absolute -bottom-8 -right-8 w-20 h-20 bg-emerald-400 rounded-full opacity-20 blur-xl"></div>
+                <div className="absolute -top-6 -left-6 w-16 h-16 bg-[#6B8A62] rounded-full opacity-20 blur-xl"></div>
+                <div className="absolute -bottom-8 -right-8 w-20 h-20 bg-[#6B8A62] rounded-full opacity-20 blur-xl"></div>
               </div>
             </div>
           </div>
-
-          {/* Dismiss Button (if dismissible) */}
-          {/* {isDismissible && (
-            <button
-              onClick={handleClose}
-              className="absolute top-4 right-4 text-gray-400 hover:text-white transition"
-            >
-              <FiX className="w-5 h-5" />
-            </button>
-          )} */}
         </div>
-
-        {/* Bottom Gradient Bar */}
-        {/* <div className="h-1 bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-600"></div> */}
       </div>
 
       <style>{`

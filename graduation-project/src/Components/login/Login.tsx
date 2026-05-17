@@ -6,8 +6,8 @@ import { APP_ROUTES } from '../../constants/routes';
 import { useAuth } from '../../contexts/AuthContext';
 import { toast } from 'react-hot-toast';
 
-const StyledMailIcon = () => <HiMail className="text-green-900" />;
-const StyledLockIcon = () => <HiLockClosed className="text-green-900" />;
+const StyledMailIcon = () => <HiMail className="text-[#6B8A62]" />;
+const StyledLockIcon = () => <HiLockClosed className="text-[#6B8A62]" />;
 
 export default function Login() {
   const navigate = useNavigate();
@@ -29,45 +29,43 @@ export default function Login() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setSubmitError(null);
-  
-  if (!formData.email || !formData.password) {
-    setSubmitError("Please fill in all fields");
-    return;
-  }
-  
-  setIsLoading(true);
-  
-  try {
-    await auth.login(formData.email, formData.password);
-    
-    // Navigate with state containing the toast message
-    navigate(APP_ROUTES.home, { 
-      state: { 
-        showWelcomeToast: true
-      } 
-    });
-    
-  } catch (error) {
-    console.error("Login error:", error);
-    const errorMessage = error instanceof Error ? error.message : 'Login failed. Please try again.';
-    
-    toast.error(errorMessage, {
-      duration: 2000,
-      position: 'top-center',
-    });
-    
-    setSubmitError(errorMessage);
-    setIsLoading(false);
-  }
-};
+    e.preventDefault();
+    setSubmitError(null);
+
+    if (!formData.email || !formData.password) {
+      setSubmitError('Please fill in all fields');
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      await auth.login(formData.email.trim(), formData.password);
+
+      navigate(APP_ROUTES.home, {
+        state: { showWelcomeToast: true },
+      });
+    } catch (error) {
+      console.error('Login error:', error);
+      const errorMessage =
+        error instanceof Error ? error.message : 'Login failed. Please try again.';
+
+      toast.error(errorMessage, {
+        duration: 3000,
+        position: 'top-center',
+      });
+
+      setSubmitError(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
       <Card className="w-full max-w-md">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-green-900 md:text-3xl">
+          <h1 className="text-2xl font-bold text-[#6B8A62] md:text-3xl">
             Login to your account
           </h1>
           <p className="mt-2 text-sm text-gray-600">
@@ -122,7 +120,7 @@ export default function Login() {
             />
             <p className="mt-2 text-xs text-gray-500 ">
               Forgot your password?{' '}
-              <Link to={APP_ROUTES.forgotPassword} className="text-green-600 hover:underline">
+              <Link to={APP_ROUTES.forgotPassword} className="text-[#6B8A62] hover:underline">
                 Forget Password
               </Link>
             </p>
@@ -131,7 +129,7 @@ export default function Login() {
           <button 
             type="submit" 
             disabled={isLoading}
-            className="mt-2 w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-3 px-6 rounded-lg hover:from-emerald-700 hover:to-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all cursor-pointer font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            className="mt-2 w-full bg-gradient-to-r from-[#6B8A62] to-[#5A7352] text-white py-3 px-6 rounded-lg hover:from-[#5A7352] hover:to-[#4A5C42] focus:outline-none focus:ring-2 focus:ring-[#6B8A62] transition-all cursor-pointer font-medium disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <span className="flex items-center justify-center gap-2">
@@ -145,7 +143,7 @@ export default function Login() {
 
           <p className="text-center text-sm text-gray-600 ">
             Don't have an account?{' '}
-            <Link to={APP_ROUTES.signup} className="text-green-600 hover:underline">
+            <Link to={APP_ROUTES.signup} className="text-[#6B8A62] hover:underline">
               Sign up
             </Link>
           </p>

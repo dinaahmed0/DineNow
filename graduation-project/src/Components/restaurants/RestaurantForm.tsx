@@ -3,6 +3,7 @@ import { FaSave, FaTimes } from 'react-icons/fa';
 import { Card, Button, TextInput, Label } from 'flowbite-react';
 import { addRestaurant, updateRestaurant } from '../../services/restaurant';
 import type { AddRestaurantCommand, UpdateRestaurantCommand, ReturnRestaurantQuery } from '../../types/restaurant';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface RestaurantFormProps {
   restaurant?: ReturnRestaurantQuery;
@@ -45,6 +46,7 @@ const commonCuisines = [
 const commonPriceRanges = ['$', '$$', '$$$', '$$$$'];
 
 export default function RestaurantForm({ restaurant, onSave, onCancel }: RestaurantFormProps) {
+  const { user } = useAuth();
   const isEditing = !!restaurant;
   
   const [formData, setFormData] = useState<AddRestaurantCommand>({
@@ -129,7 +131,11 @@ export default function RestaurantForm({ restaurant, onSave, onCancel }: Restaur
         };
         result = await updateRestaurant(updateData);
       } else {
-        result = await addRestaurant(formData);
+        if (!user?.email) {
+          setErrors({ submit: 'You must be signed in to create a restaurant.' });
+          return;
+        }
+        result = await addRestaurant(formData, user.email);
       }
 
       onSave(result);
@@ -205,7 +211,7 @@ export default function RestaurantForm({ restaurant, onSave, onCancel }: Restaur
                 value={formData.description}
                 onChange={(e) => handleInputChange('description', e.target.value)}
                 rows={4}
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 ${
+                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#6B8A62] focus:border-[#6B8A62] ${
                   errors.description ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="Describe your restaurant..."
@@ -222,7 +228,7 @@ export default function RestaurantForm({ restaurant, onSave, onCancel }: Restaur
                 id="cuisine"
                 value={formData.cuisine}
                 onChange={(e) => handleInputChange('cuisine', e.target.value)}
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 ${
+                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#6B8A62] focus:border-[#6B8A62] ${
                   errors.cuisine ? 'border-red-500' : 'border-gray-300'
                 }`}
                 required
@@ -243,7 +249,7 @@ export default function RestaurantForm({ restaurant, onSave, onCancel }: Restaur
                 id="priceRange"
                 value={formData.priceRange}
                 onChange={(e) => handleInputChange('priceRange', e.target.value)}
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 ${
+                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#6B8A62] focus:border-[#6B8A62] ${
                   errors.priceRange ? 'border-red-500' : 'border-gray-300'
                 }`}
                 required
@@ -367,7 +373,7 @@ export default function RestaurantForm({ restaurant, onSave, onCancel }: Restaur
                   type="checkbox"
                   checked={formData.features.includes(feature)}
                   onChange={() => toggleFeature(feature)}
-                  className="rounded text-emerald-600 focus:ring-emerald-500"
+                  className="rounded text-[#6B8A62] focus:ring-[#6B8A62]"
                 />
                 <span className="text-sm">{feature}</span>
               </label>
@@ -389,7 +395,7 @@ export default function RestaurantForm({ restaurant, onSave, onCancel }: Restaur
             type="submit"
             color="success"
             disabled={submitting}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 bg-[#6B8A62] hover:bg-[#5A7352]"
           >
             {submitting && <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>}
             <FaSave />

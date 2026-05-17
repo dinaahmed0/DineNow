@@ -41,6 +41,41 @@ const validationSchema = yup.object({
     .oneOf([true], 'You must agree to the terms')
 });
 
+// Custom Modal Component
+const CustomModal = ({ show, onClose, title, children }: { show: boolean; onClose: () => void; title: string; children: React.ReactNode }) => {
+  if (!show) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-xl  overflow-hidden">
+        <div className="flex justify-between items-center p-6 border-b border-gray-200">
+          <h2 className="text-xl font-bold text-gray-900">{title}</h2>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div className="p-6 overflow-y-auto max-h-[calc(85vh-140px)]">
+          {children}
+        </div>
+        <div className="flex justify-end p-2 border-t border-gray-200">
+          <button
+            onClick={onClose}
+            className="px-5 py-1 bg-[#6B8A62] text-white rounded-lg hover:bg-[#5A7352] transition-colors font-medium cursor-pointer"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function Signup() {
   const [formData, setFormData] = useState<FormData>({
     fullName: "", email: "", password: "", confirmPassword: "", agreeTerms: false
@@ -52,6 +87,10 @@ export default function Signup() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [passwordFocused, setPasswordFocused] = useState(false);
+  
+  // Modal states
+  const [showTermsModal, setShowTermsModal] = useState(false);
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -69,8 +108,8 @@ export default function Signup() {
       1: { score: 1, label: 'Weak', color: 'bg-orange-500' },
       2: { score: 2, label: 'Fair', color: 'bg-yellow-500' },
       3: { score: 3, label: 'Good', color: 'bg-blue-500' },
-      4: { score: 4, label: 'Strong', color: 'bg-green-500' },
-      5: { score: 5, label: 'Very Strong', color: 'bg-green-700' },
+      4: { score: 4, label: 'Strong', color: 'bg-[#6B8A62]' },
+      5: { score: 5, label: 'Very Strong', color: 'bg-[#5A7352]' },
     };
     return strengthMap[Math.min(score, 5)] ?? strengthMap[0];
   }, [formData.password]);
@@ -127,7 +166,6 @@ export default function Signup() {
       });
       
       if (response.succeeded) {
-        // Show success message and redirect to confirmation page
         alert(response.message || "Registration successful! Please check your email to confirm your account.");
         navigate('/confirm-email', { state: { email: formData.email } });
       } else {
@@ -152,9 +190,109 @@ export default function Signup() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 px-4 py-12">
+      {/* Terms Modal */}
+      <CustomModal show={showTermsModal} onClose={() => setShowTermsModal(false)} title="Terms & Conditions">
+        <div className="space-y-4 text-gray-700">
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">1. Acceptance of Terms</h3>
+            <p className="text-sm">By accessing or using DineNow, you confirm that you agree to comply with these Terms & Conditions. If you do not agree, please do not use the application.</p>
+          </div>
+          
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">2. User Accounts</h3>
+            <p className="text-sm">Users may be required to create an account to access certain features. You are responsible for maintaining the confidentiality of your account information and password.</p>
+          </div>
+          
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">3. Reservations & Bookings</h3>
+            <p className="text-sm">DineNow allows users to browse restaurants and make reservations. Reservation availability depends on restaurant capacity and confirmation.</p>
+          </div>
+          
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">4. User Responsibilities</h3>
+            <p className="text-sm">Users agree to:</p>
+            <ul className="list-disc list-inside text-sm ml-2">
+              <li>Provide accurate information.</li>
+              <li>Use the app respectfully and legally.</li>
+              <li>Avoid misuse, unauthorized access, or harmful activity within the application.</li>
+            </ul>
+          </div>
+          
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">5. Privacy</h3>
+            <p className="text-sm">Your personal information is handled securely and used only to improve your experience within the application.</p>
+          </div>
+          
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">6. Intellectual Property</h3>
+            <p className="text-sm">All logos, designs, content, and branding within DineNow are protected and may not be copied or reused without permission.</p>
+          </div>
+          
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">7. Limitation of Liability</h3>
+            <p className="text-sm">DineNow is not responsible for restaurant service quality, booking errors caused by third parties, or interruptions beyond our control.</p>
+          </div>
+          
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">8. Changes to Terms</h3>
+            <p className="text-sm">We may update these Terms & Conditions at any time. Continued use of the app means you accept any updates.</p>
+          </div>
+          
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">9. Contact</h3>
+            <p className="text-sm">If you have questions regarding these Terms & Conditions, please contact the DineNow support team.</p>
+          </div>
+        </div>
+      </CustomModal>
+
+      {/* Privacy Modal */}
+      <CustomModal show={showPrivacyModal} onClose={() => setShowPrivacyModal(false)} title="Privacy Policy">
+        <div className="space-y-4 text-gray-700">
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Information We Collect</h3>
+            <p className="text-sm">We collect information you provide directly to us, such as your name, email address, and reservation details. We also automatically collect usage data when you use our app.</p>
+          </div>
+          
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">How We Use Your Information</h3>
+            <p className="text-sm">We use your information to process reservations, improve our services, communicate with you, and personalize your experience.</p>
+          </div>
+          
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Information Sharing</h3>
+            <p className="text-sm">We do not sell your personal information. We may share information with restaurants to facilitate your reservations, with service providers who assist us, or as required by law.</p>
+          </div>
+          
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Data Security</h3>
+            <p className="text-sm">We implement security measures to protect your information, including encryption and secure data storage.</p>
+          </div>
+          
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Your Rights</h3>
+            <p className="text-sm">You may access, correct, or delete your personal information by contacting our support team.</p>
+          </div>
+          
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Cookies</h3>
+            <p className="text-sm">We use cookies and similar technologies to enhance your experience and analyze usage patterns.</p>
+          </div>
+          
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Updates to This Policy</h3>
+            <p className="text-sm">We may update this policy periodically. Continued use of the app constitutes acceptance of any changes.</p>
+          </div>
+          
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Contact Us</h3>
+            <p className="text-sm">For questions about this Privacy Policy, please contact our support team at privacy@dinenow.com</p>
+          </div>
+        </div>
+      </CustomModal>
+      
       <Card className="w-full max-w-md shadow-xl">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-green-900">Create an account</h1>
+          <h1 className="text-2xl font-bold text-[#6B8A62]">Create an account</h1>
           <p className="mt-2 text-sm text-gray-600">Join us to get started with amazing features</p>
         </div>
 
@@ -247,15 +385,29 @@ export default function Signup() {
             <Checkbox id="agreeTerms" name="agreeTerms" checked={formData.agreeTerms}
                       onChange={handleChange} onBlur={handleBlur} disabled={isSubmitting} />
             <Label htmlFor="agreeTerms" className="text-sm">
-              I agree to the <a href="#" className="text-green-600 hover:underline">Terms and Conditions</a> and{' '}
-              <a href="#" className="text-green-600 hover:underline">Privacy Policy</a>
+              I agree to the{' '}
+              <button 
+                type="button"
+                onClick={() => setShowTermsModal(true)} 
+                className="text-[#6B8A62] hover:underline focus:outline-none"
+              >
+                Terms and Conditions
+              </button>
+              {/* {' and '} */}
+              {/* <button 
+                type="button"
+                onClick={() => setShowPrivacyModal(true)} 
+                className="text-[#6B8A62] hover:underline focus:outline-none"
+              >
+                Privacy Policy
+              </button> */}
             </Label>
           </div>
           {getError('agreeTerms') && <p className="text-xs text-red-600">{getError('agreeTerms')}</p>}
 
           {/* Submit Button */}
           <button type="submit" disabled={isSubmitting}
-            className="mt-4 w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-3 px-6 rounded-lg hover:from-emerald-700 hover:to-emerald-800 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed">
+            className="mt-4 w-full bg-gradient-to-r from-[#6B8A62] to-[#5A7352] text-white py-3 px-6 rounded-lg hover:from-[#5A7352] hover:to-[#4A5C42] transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed">
             {isSubmitting ? (
               <span className="flex items-center justify-center gap-2">
                 <Spinner size="sm" light /> Creating Account...
@@ -264,10 +416,10 @@ export default function Signup() {
           </button>
 
           <p className="text-center text-sm text-gray-600">
-            Already have an account? <Link to={APP_ROUTES.login} className="text-green-600 hover:underline">Log in</Link>
+            Already have an account? <Link to={APP_ROUTES.login} className="text-[#6B8A62] hover:underline">Log in</Link>
           </p>
           <p className="text-center text-sm text-gray-600">
-            Continue as a guest? <Link to={APP_ROUTES.home} className="text-green-600 hover:underline">Yes</Link>
+            Continue as a guest? <Link to={APP_ROUTES.home} className="text-[#6B8A62] hover:underline">Yes</Link>
           </p>
         </form>
       </Card>

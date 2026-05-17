@@ -1,7 +1,8 @@
 import { apiPost } from './api/client';
+import { API } from '../constants/api';
 import type { RegisterRequest, RegisterResponse, LoginRequest, LoginResponse, ForgotPasswordRequest, ForgotPasswordResponse, ResetPasswordRequest, ResetPasswordResponse, VerifyEmailRequest, VerifyEmailResponse, ResendOtpRequest, ResendOtpResponse, RefreshTokenRequest, RefreshTokenResponse, ChangePasswordRequest, ChangePasswordResponse } from '../types/auth';
 
-const USE_MOCK_MODE = false;
+const USE_MOCK_MODE = import.meta.env.VITE_USE_MOCK_MODE === 'true';
 const MOCK_STATUS_CODE = 200;
 
 export async function registerUser(userData: Omit<RegisterRequest, 'role'>): Promise<RegisterResponse> {
@@ -25,7 +26,7 @@ export async function registerUser(userData: Omit<RegisterRequest, 'role'>): Pro
   
   try {
     console.log('Sending registration request:', requestData);
-    const response = await apiPost<RegisterResponse>('/api/Account/register', requestData);
+    const response = await apiPost<RegisterResponse>(API.account.register, requestData);
     console.log('Registration response:', response);
     return response;
   } catch (error) {
@@ -60,7 +61,7 @@ export async function loginUser(userData: LoginRequest): Promise<LoginResponse> 
     }
   }
 
-  return apiPost<LoginResponse>('/api/Account/login', userData);
+  return apiPost<LoginResponse>(API.account.login, userData);
 }
 
 export async function forgotPassword(userData: ForgotPasswordRequest): Promise<ForgotPasswordResponse> {
@@ -79,7 +80,7 @@ export async function forgotPassword(userData: ForgotPasswordRequest): Promise<F
     };
   }
 
-  return apiPost<ForgotPasswordResponse>('/api/Account/ForgetPassword', userData);
+  return apiPost<ForgotPasswordResponse>(API.account.forgetPassword, userData);
 }
 
 export async function resetPassword(userData: ResetPasswordRequest): Promise<ResetPasswordResponse> {
@@ -103,7 +104,7 @@ export async function resetPassword(userData: ResetPasswordRequest): Promise<Res
     }
   }
 
-  return apiPost<ResetPasswordResponse>('/api/Account/ResetPassword', userData);
+  return apiPost<ResetPasswordResponse>(API.account.resetPassword, userData);
 }
 
 export async function verifyEmail(userData: VerifyEmailRequest): Promise<VerifyEmailResponse> {
@@ -125,7 +126,7 @@ export async function verifyEmail(userData: VerifyEmailRequest): Promise<VerifyE
     };
   }
 
-  return apiPost<VerifyEmailResponse>('/api/Account/verify-email', userData);
+  return apiPost<VerifyEmailResponse>(API.account.verifyEmail, userData);
 }
 
 export async function resendOtp(userData: ResendOtpRequest): Promise<ResendOtpResponse> {
@@ -142,7 +143,7 @@ export async function resendOtp(userData: ResendOtpRequest): Promise<ResendOtpRe
     };
   }
 
-  return apiPost<ResendOtpResponse>('/api/Account/ResentOtp', userData);
+  return apiPost<ResendOtpResponse>(API.account.resendOtp, userData);
 }
 
 export async function refreshToken(userData: RefreshTokenRequest): Promise<RefreshTokenResponse> {
@@ -170,7 +171,7 @@ export async function refreshToken(userData: RefreshTokenRequest): Promise<Refre
     }
   }
 
-  return apiPost<RefreshTokenResponse>('/api/Account/refresh', userData);
+  return apiPost<RefreshTokenResponse>(API.account.refresh, userData);
 }
 
 export async function changePassword(userData: ChangePasswordRequest): Promise<ChangePasswordResponse> {
@@ -225,5 +226,5 @@ export async function changePassword(userData: ChangePasswordRequest): Promise<C
     }
   }
 
-  return apiPost<ChangePasswordResponse>('/api/Account/ChangePassword', userData);
+  return apiPost<ChangePasswordResponse>(API.account.changePassword, userData);
 }

@@ -6,7 +6,7 @@ import { changePassword } from '../../services/auth';
 import { useAuth } from '../../contexts/AuthContext';
 import * as yup from 'yup';
 
-const StyledLockIcon = () => <HiLockClosed className="text-emerald-600" />;
+const StyledLockIcon = () => <HiLockClosed className="text-[#6B8A62]" />;
 
 interface FormData {
   currentPassword: string;
@@ -132,7 +132,7 @@ export default function ChangePassword() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
       <Card className="w-full max-w-md">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-emerald-900 md:text-3xl">
+          <h1 className="text-2xl font-bold text-[#6B8A62] md:text-3xl">
             Change Password
           </h1>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
@@ -196,7 +196,7 @@ export default function ChangePassword() {
               <div className="mt-2">
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-medium">Password Strength:</span>
-                  <span className={`text-sm font-bold ${passwordStrength.color === 'red' ? 'text-red-500' : passwordStrength.color === 'yellow' ? 'text-yellow-500' : 'text-green-500'}`}>
+                  <span className={`text-sm font-bold ${passwordStrength.color === 'red' ? 'text-red-500' : passwordStrength.color === 'yellow' ? 'text-yellow-500' : 'text-[#6B8A62]'}`}>
                     {passwordStrength.label}
                   </span>
                 </div>
@@ -205,7 +205,7 @@ export default function ChangePassword() {
                     className={`h-2 rounded-full transition-all duration-300 ${
                       passwordStrength.score <= 2 ? 'bg-red-500 w-1/3' : 
                       passwordStrength.score === 3 ? 'bg-yellow-500 w-2/3' : 
-                      'bg-green-500 w-full'
+                      'bg-[#6B8A62] w-full'
                     }`}
                   />
                 </div>
@@ -238,7 +238,7 @@ export default function ChangePassword() {
           <button 
             type="submit" 
             disabled={isLoading}
-            className="mt-2 w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-3 px-6 rounded-lg hover:from-emerald-700 hover:to-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all cursor-pointer font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            className="mt-2 w-full bg-gradient-to-r from-[#6B8A62] to-[#5A7352] text-white py-3 px-6 rounded-lg hover:from-[#5A7352] hover:to-[#4A5C42] focus:outline-none focus:ring-2 focus:ring-[#6B8A62] transition-all cursor-pointer font-medium disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <span className="flex items-center justify-center gap-2">
@@ -254,7 +254,7 @@ export default function ChangePassword() {
             <button
               type="button"
               onClick={() => navigate('/profile')}
-              className="text-sm text-emerald-600 hover:text-emerald-500"
+              className="text-sm text-[#6B8A62] hover:text-[#5A7352]"
             >
               ← Back to Profile
             </button>

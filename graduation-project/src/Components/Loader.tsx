@@ -5,7 +5,7 @@ export default function Loader() {
         {/* Custom SVG Spinner */}
         <div className="relative w-16 h-16">
           <svg 
-            className="animate-spin text-emerald-700" 
+            className="animate-spin text-[#6B8A62]" 
             width="64" 
             height="64" 
             viewBox="0 0 24 24" 

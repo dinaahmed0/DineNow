@@ -169,9 +169,9 @@ export default function FoodOrderingStep({ onFoodOrderUpdate, partySize }: FoodO
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h1 className="text-2xl font-bold text-gray-900">Would you like to<span className='text-emerald-700'> Pre-order</span> Your Food?</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Would you like to<span className='text-[#6B8A62]'> Pre-order</span> Your Food?</h1>
         <p className="text-sm text-gray-600">If not please continue to the next page</p>
-        <p className="text-emerald-700 mt-4">Planning for {partySize} guest{partySize > 1 ? 's' : ''}</p>
+        <p className="text-[#6B8A62] mt-4">Planning for {partySize} guest{partySize > 1 ? 's' : ''}</p>
       </div>
 
       {/* Category Filter */}
@@ -182,7 +182,7 @@ export default function FoodOrderingStep({ onFoodOrderUpdate, partySize }: FoodO
             onClick={() => setSelectedCategory(category)}
             className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
               selectedCategory === category
-                ? 'bg-emerald-600 text-white'
+                ? 'bg-[#6B8A62] text-white'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
@@ -222,30 +222,12 @@ export default function FoodOrderingStep({ onFoodOrderUpdate, partySize }: FoodO
                       <div className="flex items-center gap-2 mb-1">
                         <h3 className="font-semibold text-gray-900">{item.name}</h3>
                         {item.isPopular && (
-                          <span className="bg-emerald-100 text-emerald-700 text-xs px-2 py-1 rounded-full">
+                          <span className="bg-[#6B8A62]/10 text-[#6B8A62] text-xs px-2 py-1 rounded-full">
                             Popular
                           </span>
                         )}
                       </div>
                       <p className="text-sm text-gray-600 mb-2">{item.description}</p>
-                      <div className="flex items-center gap-4 text-sm">
-                        {/* <span className="font-semibold text-emerald-600">${item.price}</span> */}
-                        {/* {item.rating && (
-                          <div className="flex items-center gap-1">
-                            <FaStar className="text-yellow-400 text-xs" />
-                            <span className="text-gray-600">{item.rating}</span>
-                          </div>
-                        )} */}
-                        {/* <span className="text-gray-500">{item.category}</span> */}
-                      </div>
-                      {/* {item.allergens && item.allergens.length > 0 && (
-                        <div className="flex items-center gap-1 mt-2">
-                          <FaInfoCircle className="text-gray-400 text-xs" />
-                          <span className="text-xs text-gray-500">
-                            Contains: {item.allergens.join(", ")}
-                          </span>
-                        </div>
-                      )} */}
                     </div>
                     
                     {/* Favorite Button */}
@@ -271,7 +253,7 @@ export default function FoodOrderingStep({ onFoodOrderUpdate, partySize }: FoodO
                         className={`w-8 h-8 rounded-full flex items-center justify-center transition ${
                           quantity === 0
                             ? 'bg-gray-100 text-gray-300 cursor-not-allowed'
-                            : 'bg-emerald-600 text-white hover:bg-emerald-700'
+                            : 'bg-[#6B8A62] text-white hover:bg-[#5A7352]'
                         }`}
                       >
                         <FaMinus className="text-xs" />
@@ -279,13 +261,13 @@ export default function FoodOrderingStep({ onFoodOrderUpdate, partySize }: FoodO
                       <span className="w-8 text-center font-medium">{quantity}</span>
                       <button
                         onClick={() => updateQuantity(item.id, 1)}
-                        className="w-8 h-8 rounded-full bg-emerald-600 text-white hover:bg-emerald-700 flex items-center justify-center transition"
+                        className="w-8 h-8 rounded-full bg-[#6B8A62] text-white hover:bg-[#5A7352] flex items-center justify-center transition"
                       >
                         <FaPlus className="text-xs" />
                       </button>
                     </div>
                     {quantity > 0 && (
-                      <span className="text-sm font-medium text-emerald-600 ml-auto">
+                      <span className="text-sm font-medium text-[#6B8A62] ml-auto">
                         ${(item.price * quantity).toFixed(2)}
                       </span>
                     )}
@@ -299,7 +281,7 @@ export default function FoodOrderingStep({ onFoodOrderUpdate, partySize }: FoodO
 
       {/* Order Summary */}
       {getTotalItems() > 0 && (
-        <div className="bg-emerald-50 rounded-lg p-6 border border-emerald-200">
+        <div className="bg-[#6B8A62]/10 rounded-lg p-6 border border-[#6B8A62]/20">
           <h3 className="font-semibold text-gray-900 mb-4">Order Summary</h3>
           <div className="space-y-2 mb-4">
             {getOrderedItems().map(item => (
@@ -309,15 +291,15 @@ export default function FoodOrderingStep({ onFoodOrderUpdate, partySize }: FoodO
               </div>
             ))}
           </div>
-          <div className="border-t border-emerald-200 pt-3">
+          <div className="border-t border-[#6B8A62]/20 pt-3">
             <div className="flex justify-between font-semibold text-lg">
               <span>Total</span>
-              <span className="text-emerald-600">${calculateTotal().toFixed(2)}</span>
+              <span className="text-[#6B8A62]">${calculateTotal().toFixed(2)}</span>
             </div>
             <p className="text-xs text-gray-500 mt-1">
               + 10% service charge will be added at the restaurant
             </p>
-            <p className="text-xs text-emerald-600 mt-2">
+            <p className="text-xs text-[#6B8A62] mt-2">
               50% deposit option available on next step
             </p>
           </div>
@@ -327,7 +309,6 @@ export default function FoodOrderingStep({ onFoodOrderUpdate, partySize }: FoodO
       {/* No Items Selected Notice */}
       {getTotalItems() === 0 && (
         <div className="bg-gray-50 rounded-lg p-6 text-center border border-gray-200">
-          {/* <FaUtensils className="text-gray-400 text-3xl mx-auto mb-3" /> */}
           <p className="text-gray-600 mb-2">No items selected</p>
           <p className="text-sm text-gray-500">
             You can skip this step and order at the restaurant

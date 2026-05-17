@@ -114,8 +114,8 @@ export default function PaymentForm({ amount, onPaymentComplete, onCancel }: Pay
   if (showSuccess) {
     return (
       <div className="bg-white rounded-xl p-8 text-center">
-        <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
-          <FaCheckCircle className="text-emerald-600 text-4xl" />
+        <div className="w-20 h-20 bg-[#6B8A62]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+          <FaCheckCircle className="text-[#6B8A62] text-4xl" />
         </div>
         <h3 className="text-2xl font-bold text-gray-900 mb-3">Payment Successful!</h3>
         <p className="text-gray-600 mb-4">
@@ -133,7 +133,7 @@ export default function PaymentForm({ amount, onPaymentComplete, onCancel }: Pay
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-xl font-bold text-gray-900">Secure Payment</h3>
         <div className="flex items-center gap-2 text-sm text-gray-500">
-          <FaLock className="text-emerald-600" />
+          <FaLock className="text-[#6B8A62]" />
           <span>SSL Encrypted</span>
         </div>
       </div>
@@ -146,7 +146,7 @@ export default function PaymentForm({ amount, onPaymentComplete, onCancel }: Pay
             <span>Food Total:</span>
             <span>${amount.toFixed(2)}</span>
           </div>
-          <div className="flex justify-between text-sm font-semibold text-emerald-600">
+          <div className="flex justify-between text-sm font-semibold text-[#6B8A62]">
             <span>50% Deposit:</span>
             <span>${depositAmount.toFixed(2)}</span>
           </div>
@@ -169,7 +169,7 @@ export default function PaymentForm({ amount, onPaymentComplete, onCancel }: Pay
               value={formData.cardNumber}
               onChange={(e) => handleInputChange('cardNumber', e.target.value)}
               placeholder="1234 5678 9012 3456"
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition ${
+              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#6B8A62] focus:border-[#6B8A62] outline-none transition ${
                 errors.cardNumber ? 'border-red-500' : 'border-gray-300'
               }`}
               maxLength={19}
@@ -189,7 +189,7 @@ export default function PaymentForm({ amount, onPaymentComplete, onCancel }: Pay
             value={formData.cardholderName}
             onChange={(e) => handleInputChange('cardholderName', e.target.value)}
             placeholder="John Doe"
-            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition ${
+            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#6B8A62] focus:border-[#6B8A62] outline-none transition ${
               errors.cardholderName ? 'border-red-500' : 'border-gray-300'
             }`}
           />
@@ -207,7 +207,7 @@ export default function PaymentForm({ amount, onPaymentComplete, onCancel }: Pay
               value={formData.expiryDate}
               onChange={(e) => handleInputChange('expiryDate', e.target.value)}
               placeholder="MM/YY"
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition ${
+              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#6B8A62] focus:border-[#6B8A62] outline-none transition ${
                 errors.expiryDate ? 'border-red-500' : 'border-gray-300'
               }`}
               maxLength={5}
@@ -224,7 +224,7 @@ export default function PaymentForm({ amount, onPaymentComplete, onCancel }: Pay
               value={formData.cvv}
               onChange={(e) => handleInputChange('cvv', e.target.value)}
               placeholder="123"
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition ${
+              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#6B8A62] focus:border-[#6B8A62] outline-none transition ${
                 errors.cvv ? 'border-red-500' : 'border-gray-300'
               }`}
               maxLength={4}
@@ -239,7 +239,7 @@ export default function PaymentForm({ amount, onPaymentComplete, onCancel }: Pay
             type="checkbox"
             checked={formData.saveCard}
             onChange={(e) => setFormData(prev => ({ ...prev, saveCard: e.target.checked }))}
-            className="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500"
+            className="w-4 h-4 text-[#6B8A62] border-gray-300 rounded focus:ring-[#6B8A62]"
           />
           <span className="text-sm text-gray-700">
             Save card details for future orders
@@ -260,7 +260,7 @@ export default function PaymentForm({ amount, onPaymentComplete, onCancel }: Pay
             type="button"
             onClick={handleSubmit}
             disabled={isProcessing}
-            className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-lg font-semibold transition-all disabled:opacity-50"
+            className="flex-1 bg-[#6B8A62] hover:bg-[#5A7352] text-white py-3 rounded-lg font-semibold transition-all disabled:opacity-50"
           >
             {isProcessing ? (
               <div className="flex items-center justify-center gap-2">
@@ -275,10 +275,10 @@ export default function PaymentForm({ amount, onPaymentComplete, onCancel }: Pay
       </div>
 
       {/* Security Notice */}
-      <div className="mt-6 p-4 bg-emerald-50 rounded-lg border border-emerald-200">
+      <div className="mt-6 p-4 bg-[#6B8A62]/10 rounded-lg border border-[#6B8A62]/20">
         <div className="flex items-start gap-3">
-          <FaLock className="text-emerald-600 mt-1" />
-          <div className="text-sm text-emerald-700">
+          <FaLock className="text-[#6B8A62] mt-1" />
+          <div className="text-sm text-[#6B8A62]">
             <p className="font-semibold mb-1">Secure Payment</p>
             <p>Your payment information is encrypted and secure. We never store your complete card details.</p>
           </div>

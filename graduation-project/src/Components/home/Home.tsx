@@ -22,7 +22,7 @@ export default function HeroSection() {
         position: 'top-center',
         icon: '👋',
         style: {
-          background: '#10b981',
+          background: '#6B8A62',
           color: '#fff',
           fontWeight: '500',
           padding: '16px',

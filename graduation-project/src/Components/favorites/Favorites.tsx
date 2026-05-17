@@ -17,7 +17,7 @@ const Favorites = () => {
             <div key={fav.id} className="p-6 bg-white border rounded-lg shadow hover:shadow-lg transition">
               <h3 className="text-xl font-semibold">{fav.name}</h3>
               <p>Rating: {fav.rating}/5 | {fav.cuisine}</p>
-              <button className="mt-4 px-4 py-2 bg-emerald-600 text-white rounded hover:bg-emerald-700">
+              <button className="mt-4 px-4 py-2 bg-[#6B8A62] text-white rounded hover:bg-[#5A7352]">
                 Reserve Now
               </button>
             </div>

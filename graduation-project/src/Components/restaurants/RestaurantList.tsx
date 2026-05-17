@@ -46,9 +46,9 @@ export default function RestaurantList({ isAdmin = false, onEditRestaurant, onAd
     return restaurants.filter(restaurant => {
       const matchesSearch = searchTerm === '' || 
         restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        restaurant.cuisine.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        restaurant.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        restaurant.description.toLowerCase().includes(searchTerm.toLowerCase());
+        (restaurant.cuisine?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false) ||
+        (restaurant.location?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false) ||
+        (restaurant.description?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false);
 
       const matchesCuisine = cuisineFilter === 'all' || restaurant.cuisine === cuisineFilter;
       const matchesPrice = priceFilter === 'all' || restaurant.priceRange === priceFilter;
@@ -112,7 +112,7 @@ export default function RestaurantList({ isAdmin = false, onEditRestaurant, onAd
           </p>
         </div>
         {isAdminUser && onAddRestaurant && (
-          <Button onClick={onAddRestaurant} color="success" className="flex items-center gap-2">
+          <Button onClick={onAddRestaurant} className="flex items-center gap-2 bg-[#6B8A62] hover:bg-[#5A7352]">
             <FaPlus />
             Add Restaurant
           </Button>
@@ -140,7 +140,7 @@ export default function RestaurantList({ isAdmin = false, onEditRestaurant, onAd
           <select
             value={cuisineFilter}
             onChange={(e) => setCuisineFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+            className="px-3 py-2 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-[#6B8A62] focus:border-[#6B8A62]"
           >
             <option value="all">All Cuisines</option>
             {uniqueCuisines.map(cuisine => (
@@ -152,7 +152,7 @@ export default function RestaurantList({ isAdmin = false, onEditRestaurant, onAd
           <select
             value={priceFilter}
             onChange={(e) => setPriceFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+            className="px-3 py-2 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-[#6B8A62] focus:border-[#6B8A62]"
           >
             <option value="all">All Prices</option>
             {uniquePriceRanges.map(price => (
@@ -186,7 +186,7 @@ export default function RestaurantList({ isAdmin = false, onEditRestaurant, onAd
                   />
                 )}
                 <div className="absolute top-3 left-3">
-                  <Badge color="success" className="bg-emerald-600">
+                  <Badge color="success" className="bg-[#6B8A62]">
                     {restaurant.cuisine}
                   </Badge>
                 </div>
@@ -235,7 +235,7 @@ export default function RestaurantList({ isAdmin = false, onEditRestaurant, onAd
 
                 <div className="space-y-2 text-sm text-gray-600">
                   <div className="flex items-center gap-2">
-                    <FaMapMarkerAlt className="text-emerald-600" />
+                    <FaMapMarkerAlt className="text-[#6B8A62]" />
                     <span>{restaurant.location}</span>
                     <Badge color="light" className="ml-auto">
                       {restaurant.priceRange}
@@ -243,12 +243,12 @@ export default function RestaurantList({ isAdmin = false, onEditRestaurant, onAd
                   </div>
                   
                   <div className="flex items-center gap-2">
-                    <FaPhone className="text-emerald-600" />
+                    <FaPhone className="text-[#6B8A62]" />
                     <span>{restaurant.phone}</span>
                   </div>
                   
                   <div className="flex items-center gap-2">
-                    <FaClock className="text-emerald-600" />
+                    <FaClock className="text-[#6B8A62]" />
                     <span>{restaurant.hours}</span>
                   </div>
                 </div>
@@ -272,7 +272,7 @@ export default function RestaurantList({ isAdmin = false, onEditRestaurant, onAd
                 {/* Action Button */}
                 <Button
                   color="success"
-                  className="w-full mt-4 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800"
+                  className="w-full mt-4 bg-gradient-to-r from-[#6B8A62] to-[#5A7352] hover:from-[#5A7352] hover:to-[#4A5C42]"
                   onClick={() => {
                     // Navigate to restaurant details - will implement later
                     window.location.href = `/restaurants/${restaurant.id}`;

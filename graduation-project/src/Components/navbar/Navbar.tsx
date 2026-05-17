@@ -63,7 +63,7 @@ export default function Navbar() {
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-                className="flex items-center gap-2 px-3 py-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-emerald-600 md:p-0 transition-all duration-200 cursor-pointer"
+                className="flex items-center gap-2 px-3 py-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#6B8A62] md:p-0 transition-all duration-200 cursor-pointer"
               >
                 <FaUser className="text-sm" />
                 <h2 className=" text-gray-900">
@@ -76,21 +76,21 @@ export default function Navbar() {
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
                   <Link
                     to={APP_ROUTES.profile}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#6B8A62]/10"
                     onClick={() => setIsProfileDropdownOpen(false)}
                   >
                     Profile
                   </Link>
                   <Link
                     to={APP_ROUTES.myReservations}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#6B8A62]/10"
                     onClick={() => setIsProfileDropdownOpen(false)}
                   >
                     My Reservations
                   </Link>
                   <Link
                     to={APP_ROUTES.favorites}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#6B8A62]/10"
                     onClick={() => setIsProfileDropdownOpen(false)}
                   >
                     Favorites
@@ -111,7 +111,7 @@ export default function Navbar() {
               <li>
                 <Link
                   to={APP_ROUTES.signup}
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-emerald-600 md:p-0"
+                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#6B8A62] md:p-0"
                 >
                   SignUp
                 </Link>
@@ -191,9 +191,9 @@ export default function Navbar() {
             <li>
               <Link
                 to={APP_ROUTES.home}
-                className={`block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-emerald-600 md:p-0 transition-all duration-200 ${
+                className={`block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#6B8A62] md:p-0 transition-all duration-200 ${
                   isActive(APP_ROUTES.home) 
-                    ? 'text-emerald-600 underline decoration-emerald-600 underline-offset-8 decoration-1' 
+                    ? 'text-[#6B8A62] underline decoration-[#6B8A62] underline-offset-8 decoration-1' 
                     : 'text-gray-900'
                 }`}
               >
@@ -203,9 +203,9 @@ export default function Navbar() {
             <li>
               <Link
                 to={APP_ROUTES.spots}
-                className={`block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-emerald-600 md:p-0 transition-all duration-200 ${
+                className={`block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#6B8A62] md:p-0 transition-all duration-200 ${
                   isActive(APP_ROUTES.spots) 
-                    ? 'text-emerald-600 underline decoration-emerald-600 underline-offset-8 decoration-1' 
+                    ? 'text-[#6B8A62] underline decoration-[#6B8A62] underline-offset-8 decoration-1' 
                     : 'text-gray-900'
                 }`}
               >
@@ -215,9 +215,9 @@ export default function Navbar() {
             <li>
               <Link
                 to={APP_ROUTES.about}
-                className={`block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-emerald-600 md:p-0 transition-all duration-200 ${
+                className={`block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#6B8A62] md:p-0 transition-all duration-200 ${
                   isActive(APP_ROUTES.about) 
-                    ? 'text-emerald-600 underline decoration-emerald-600 underline-offset-8 decoration-1' 
+                    ? 'text-[#6B8A62] underline decoration-[#6B8A62] underline-offset-8 decoration-1' 
                     : 'text-gray-900'
                 }`}
               >

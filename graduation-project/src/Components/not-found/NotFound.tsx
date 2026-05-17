@@ -8,10 +8,10 @@ export default function NotFound() {
       <img
         src={error}
         alt="Page not found"
-        className="max-w-full w-[min(100%,600px)] h-auto mx-auto"
+        className="max-full w-[min(100%,600px)] h-auto mx-auto"
       />
       <p>
-        <Link to={APP_ROUTES.home} className="inline-block text-green-900 text-xl font-semibold hover:text-green-700 transition-colors duration-200 ">Return to Home?</Link>
+        <Link to={APP_ROUTES.home} className="inline-block text-[#6B8A62] text-xl font-semibold hover:text-[#5A7352] transition-colors duration-200 ">Return to Home?</Link>
       </p>
     </section>
   );

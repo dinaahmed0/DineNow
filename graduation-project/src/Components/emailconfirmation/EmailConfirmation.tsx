@@ -151,15 +151,15 @@ export default function EmailConfirmation() {
         <div className="bg-white rounded-2xl shadow-xl p-8">
           {/* Logo */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-emerald-600">DineNow</h1>
+            <h1 className="text-3xl font-bold text-[#6B8A62]">DineNow</h1>
             <p className="text-gray-600 mt-2">Verify Your Email</p>
           </div>
 
           {/* Success State */}
           {status === 'success' && (
             <div className="text-center space-y-4">
-              <div className="mx-auto w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center">
-                <FaCheckCircle className="text-emerald-600 text-2xl" />
+              <div className="mx-auto w-16 h-16 bg-[#6B8A62]/10 rounded-full flex items-center justify-center">
+                <FaCheckCircle className="text-[#6B8A62] text-2xl" />
               </div>
               <div>
                 <h2 className="text-xl font-semibold text-gray-900 mb-2">
@@ -171,7 +171,7 @@ export default function EmailConfirmation() {
                 </p>
                 <button
                   onClick={() => navigate('/login')}
-                  className="mt-4 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg font-medium transition-colors"
+                  className="mt-4 bg-[#6B8A62] hover:bg-[#5A7352] text-white px-6 py-2 rounded-lg font-medium transition-colors"
                 >
                   Go to Login Now
                 </button>
@@ -183,8 +183,8 @@ export default function EmailConfirmation() {
           {(status === 'idle' || status === 'loading') && (
             <div className="space-y-6">
               <div className="text-center">
-                <div className="mx-auto w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
-                  <FaEnvelope className="text-emerald-600 text-2xl" />
+                <div className="mx-auto w-16 h-16 bg-[#6B8A62]/10 rounded-full flex items-center justify-center mb-4">
+                  <FaEnvelope className="text-[#6B8A62] text-2xl" />
                 </div>
                 <h2 className="text-xl font-semibold text-gray-900 mb-2">
                   Check Your Email
@@ -216,14 +216,14 @@ export default function EmailConfirmation() {
                       value={digit}
                       onChange={(e) => handleCodeChange(index, e.target.value)}
                       onKeyDown={(e) => handleKeyDown(index, e)}
-                      className="w-12 h-12 text-center text-2xl font-semibold border-2 border-gray-200 rounded-lg focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none transition-all"
+                      className="w-12 h-12 text-center text-2xl font-semibold border-2 border-gray-200 rounded-lg focus:border-[#6B8A62] focus:ring-2 focus:ring-[#6B8A62]/20 outline-none transition-all"
                     />
                   ))}
                 </div>
 
                 {message && (
                   <p className={`text-center text-sm ${
-                    message.includes('Invalid') || message.includes('expired') ? 'text-red-600' : 'text-emerald-600'
+                    message.includes('Invalid') || message.includes('expired') ? 'text-red-600' : 'text-[#6B8A62]'
                   }`}>
                     {message}
                   </p>
@@ -231,14 +231,14 @@ export default function EmailConfirmation() {
 
                 {status === 'loading' && (
                   <div className="flex justify-center">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-emerald-600"></div>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[#6B8A62]"></div>
                   </div>
                 )}
 
                 <button
                   onClick={handleSubmit}
                   disabled={status === 'loading' || code.some(d => !d)}
-                  className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-400 text-white py-3 rounded-lg font-medium transition-colors"
+                  className="w-full bg-[#6B8A62] hover:bg-[#5A7352] disabled:bg-gray-400 text-white py-3 rounded-lg font-medium transition-colors"
                 >
                   {status === 'loading' ? 'Verifying...' : 'Verify Email'}
                 </button>
@@ -260,7 +260,7 @@ export default function EmailConfirmation() {
                 <button
                   onClick={resendCode}
                   disabled={isResending}
-                  className="bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-400 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2 mx-auto"
+                  className="bg-[#6B8A62] hover:bg-[#5A7352] disabled:bg-gray-400 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2 mx-auto"
                 >
                   <FaRedo className={isResending ? 'animate-spin' : ''} />
                   {isResending ? 'Sending...' : 'Send New Code'}
@@ -286,7 +286,7 @@ export default function EmailConfirmation() {
                     setCode(['', '', '', '', '', '']);
                     setMessage('');
                   }}
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                  className="bg-[#6B8A62] hover:bg-[#5A7352] text-white px-6 py-3 rounded-lg font-medium transition-colors"
                 >
                   Try Again
                 </button>
@@ -304,14 +304,14 @@ export default function EmailConfirmation() {
                 <button
                   onClick={resendCode}
                   disabled={isResending}
-                  className="text-emerald-600 hover:text-emerald-700 text-sm font-medium disabled:text-gray-400"
+                  className="text-[#6B8A62] hover:text-[#5A7352] text-sm font-medium disabled:text-gray-400"
                 >
                   {isResending ? 'Sending...' : 'Resend Code'}
                 </button>
               </div>
               
               <div className="mt-4 text-center">
-                <a href="/help" className="text-sm text-gray-500 hover:text-emerald-600">
+                <a href="/help" className="text-sm text-gray-500 hover:text-[#6B8A62]">
                   Need help? Contact Support
                 </a>
               </div>

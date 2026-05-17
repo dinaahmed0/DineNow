@@ -197,7 +197,6 @@ const SpotCard: FC<SpotCardProps> = ({ spot, onClick, isFavorite, onFavoriteTogg
         spot.type === 'restaurant' ? 'bg-red-700/90' : 'bg-yellow-800/90'
       }`}>
         {spot.type === 'restaurant' ? <MdRestaurant className="inline mr-1" /> : <MdLocalCafe className="inline mr-1" />}
-        {/* {spot.type === 'restaurant' ? 'Restaurant' : 'Cafe'} */}
       </div>
       <Button
         onClick={(e) => {
@@ -219,7 +218,7 @@ const SpotCard: FC<SpotCardProps> = ({ spot, onClick, isFavorite, onFavoriteTogg
     <div className="p-4">
       <div className="flex justify-between items-start mb-2">
         <h3 className="text-lg font-semibold text-gray-900 line-clamp-1">{spot.name}</h3>
-        <div className="flex items-center gap-1 bg-green-50 px-2 py-0.5 rounded-full">
+        <div className="flex items-center gap-1 bg-[#6B8A62]/10 px-2 py-0.5 rounded-full">
           <FaStar className="text-yellow-400 text-xs" />
           <span className="text-sm font-medium text-gray-700">{spot.rating}</span>
           <span className="text-xs text-gray-500">({spot.reviewCount})</span>
@@ -231,7 +230,7 @@ const SpotCard: FC<SpotCardProps> = ({ spot, onClick, isFavorite, onFavoriteTogg
       </p>
       
       <div className="flex items-center gap-2 text-gray-400 text-xs mb-3">
-        <FaMapMarkerAlt className="text-emerald-600" />
+        <FaMapMarkerAlt className="text-[#6B8A62]" />
         <span className="text-gray-500">{spot.location}</span>
         <span className="text-gray-300">•</span>
         <span className="font-medium text-gray-600">{spot.priceRange}</span>
@@ -241,7 +240,7 @@ const SpotCard: FC<SpotCardProps> = ({ spot, onClick, isFavorite, onFavoriteTogg
       
       <Button
         onClick={() => onClick(spot)}
-        className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-2.5 rounded-lg hover:shadow-lg hover:scale-102 transition-all duration-300 font-semibold flex items-center justify-center gap-2 cursor-pointer"
+        className="w-full bg-gradient-to-r from-[#6B8A62] to-[#5A7352] text-white py-2.5 rounded-lg hover:shadow-lg hover:scale-102 transition-all duration-300 font-semibold flex items-center justify-center gap-2 cursor-pointer"
       >
         View Details
       </Button>
@@ -276,7 +275,7 @@ const SpotDetailModal: FC<SpotDetailModalProps> = ({ spot, onClose, isFavorite, 
         <div className="relative h-56 md:h-64 bg-gradient-to-br from-gray-100 to-gray-200">
           {!isImageLoaded && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-8 h-8 border-3 border-emerald-200 border-t-emerald-600 rounded-full animate-spin" />
+              <div className="w-8 h-8 border-3 border-[#6B8A62]/20 border-t-[#6B8A62] rounded-full animate-spin" />
             </div>
           )}
           <img
@@ -310,17 +309,6 @@ const SpotDetailModal: FC<SpotDetailModalProps> = ({ spot, onClose, isFavorite, 
               <FaRegHeart className="text-gray-600 text-sm" />
             )}
           </button>
-          
-          {/* Type Badge */}
-          {/* <div className={`absolute bottom-4 left-4 px-3 py-1.5 rounded-lg text-white text-xs font-medium backdrop-blur-md shadow-lg ${
-            spot.type === 'restaurant' ? 'bg-orange-500/90' : 'bg-emerald-500/90'
-          }`}>
-            {spot.type === 'restaurant' ? (
-              <><FaUtensils className="inline mr-1.5 text-xs" /></>
-            ) : (
-              <><FaCoffee className="inline mr-1.5 text-xs" /></>
-            )}
-          </div> */}
         </div>
         
         {/* Content Section */}
@@ -332,13 +320,13 @@ const SpotDetailModal: FC<SpotDetailModalProps> = ({ spot, onClose, isFavorite, 
                 {spot.name}
               </h2>
               <div className="flex flex-wrap items-center gap-2 mt-2">
-                <div className="flex items-center gap-1 bg-green-50 px-2 py-0.5 rounded-md">
+                <div className="flex items-center gap-1 bg-[#6B8A62]/10 px-2 py-0.5 rounded-md">
                   <FaStar className="text-yellow-400 text-xs" />
                   <span className="text-sm font-semibold text-gray-800">{spot.rating}</span>
                   <span className="text-xs text-gray-500">({spot.reviewCount})</span>
                 </div>
                 <span className="text-gray-300">•</span>
-                <span className="text-sm font-medium text-emerald-600">{spot.priceRange}</span>
+                <span className="text-sm font-medium text-[#6B8A62]">{spot.priceRange}</span>
                 <span className="text-gray-300">•</span>
                 <span className="text-xs text-gray-500 capitalize">{spot.type}</span>
               </div>
@@ -354,8 +342,8 @@ const SpotDetailModal: FC<SpotDetailModalProps> = ({ spot, onClose, isFavorite, 
           <div className="space-y-3 mb-5">
             {/* Location */}
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 bg-emerald-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                <FaMapMarkerAlt className="text-emerald-600 text-sm" />
+              <div className="w-8 h-8 bg-[#6B8A62]/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                <FaMapMarkerAlt className="text-[#6B8A62] text-sm" />
               </div>
               <div className="flex-1">
                 <p className="text-xs text-gray-400 uppercase tracking-wide">Location</p>
@@ -364,22 +352,11 @@ const SpotDetailModal: FC<SpotDetailModalProps> = ({ spot, onClose, isFavorite, 
               </div>
             </div>
             
-            {/* Hours */}
-            {/* <div className="flex items-start gap-3">
-              <div className="w-8 h-8 bg-emerald-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                <FaClock className="text-emerald-600 text-sm" />
-              </div>
-              <div className="flex-1">
-                <p className="text-xs text-gray-400 uppercase tracking-wide">Hours</p>
-                <p className="text-sm text-gray-800">{spot.hours}</p>
-              </div>
-            </div> */}
-            
             {/* Contact Row - Two items side by side */}
             <div className="grid grid-cols-2 gap-3">
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 bg-emerald-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <FaClock className="text-emerald-600 text-sm" />
+                <div className="w-8 h-8 bg-[#6B8A62]/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <FaClock className="text-[#6B8A62] text-sm" />
                 </div>
                 <div className="flex-1">
                   <p className="text-xs text-gray-400 uppercase tracking-wide">Hours</p>
@@ -388,32 +365,14 @@ const SpotDetailModal: FC<SpotDetailModalProps> = ({ spot, onClose, isFavorite, 
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 bg-emerald-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <FaPhoneAlt className="text-emerald-600 text-sm" />
+                <div className="w-8 h-8 bg-[#6B8A62]/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <FaPhoneAlt className="text-[#6B8A62] text-sm" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-xs text-gray-400 uppercase tracking-wide">Phone</p>
                   <p className="text-sm text-gray-800 truncate">{spot.phone}</p>
                 </div>
               </div>
-              
-              {/* <div className="flex items-start gap-3">
-                <div className="w-8 h-8 bg-emerald-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <FaGlobe className="text-emerald-600 text-sm" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs text-gray-400 uppercase tracking-wide">Website</p>
-                  <a 
-                    href={`https://${spot.website}`} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-sm text-emerald-600 hover:text-emerald-700 truncate block hover:underline"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    {spot.website}
-                  </a>
-                </div>
-              </div> */}
             </div>
           </div>
           
@@ -439,7 +398,7 @@ const SpotDetailModal: FC<SpotDetailModalProps> = ({ spot, onClose, isFavorite, 
           {/* Action Buttons */}
           <div className="flex gap-3 pt-2 border-t border-gray-100">
             <ProtectedButton
-              className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-2.5 rounded-lg hover:shadow-lg hover:scale-102 transition-all duration-300 font-semibold flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full bg-gradient-to-r from-[#6B8A62] to-[#5A7352] text-white py-2.5 rounded-lg hover:shadow-lg hover:scale-102 transition-all duration-300 font-semibold flex items-center justify-center gap-2 cursor-pointer"
               onClick={() => {
                 onReserve(spot);
                 onClose();
@@ -449,7 +408,7 @@ const SpotDetailModal: FC<SpotDetailModalProps> = ({ spot, onClose, isFavorite, 
             </ProtectedButton>
             <Button
               color="light"
-              className="px-5 border-2 border-gray-200 hover:border-emerald-300 hover:bg-emerald-50 transition-all duration-200 font-medium flex items-center gap-2"
+              className="px-5 border-2 border-gray-200 hover:border-[#6B8A62]/30 hover:bg-[#6B8A62]/10 transition-all duration-200 font-medium flex items-center gap-2"
               onClick={() => alert(`Directions to ${spot.name}`)}
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -548,46 +507,20 @@ export default function Spots() {
         {/* Hero Section */}
         <div className="text-center mb-5">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Discover <span className="text-emerald-600">Trending</span> Tables
+            Discover <span className="text-[#6B8A62]">Trending</span> Tables
           </h1>
           <p className="text-gray-500 text-lg max-w-3xl mx-auto">
             Find the best restaurants and cafes in your area. Explore top-rated spots, read reviews, and plan your next dining experience.
           </p>
         </div>
 
-        {/* Search and Filter Bar */}
-        {/* <Card className="sticky top-20 z-30 backdrop-blur-sm bg-white/95 mb-8 hover:shadow-lg transition-shadow duration-300 shadow-emerald-200">
-          <div className="flex flex-col lg:flex-row gap-4">
-            <div className="flex-1 relative">
-              <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-emerald-700 z-10" />
-              <TextInput
-                type="text"
-                placeholder="Search by name, cuisine, location, or description..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-11"
-              />
-              {searchTerm && (
-                <Button
-                  onClick={() => setSearchTerm('')}
-                  color="light"
-                  size="xs"
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2"
-                >
-                  <FaTimes />
-                </Button>
-              )}
-            </div>
-          </div>
-        </Card> */}
-
         <div className="max-w-7xl mx-auto sticky top-20 z-30 mb-8">
           <div className="relative group">
             {/* Glow Effect */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-100 to-emerald-200 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-300 blur" />
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#6B8A62]/10 to-[#6B8A62]/20 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-300 blur" />
             
             <div className="relative bg-white rounded-2xl py-4">
-              <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-emerald-700 z-10" />
+              <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#6B8A62] z-10" />
               <div className="flex items-center p-1">
                 <TextInput
                   type="text"
@@ -605,13 +538,6 @@ export default function Spots() {
                     ✕
                   </button>
                 )}
-                {/* <Button
-                  className="bg-emerald-700 hover:bg-emerald-600 cursor-pointer text-white rounded-xl m-1 px-6 py-2.5 transition-all duration-300"
-                  onClick={() => {}}
-                >
-                  <FaSearch className="w-5 h-5 mr-2" />
-                  Search
-                </Button> */}
               </div>
             </div>
           </div>
@@ -635,7 +561,6 @@ export default function Spots() {
             onClick={() => setFilterType('restaurant')}
             className="flex items-center gap-2"
           >
-            {/* <FaUtensils /> */}
             Restaurants
             <Badge color={filterType === 'restaurant' ? 'success' : 'gray'}>
               {restaurantCount}
@@ -646,7 +571,6 @@ export default function Spots() {
             onClick={() => setFilterType('cafe')}
             className="flex items-center gap-2"
           >
-            {/* <FaCoffee /> */}
             Cafes
             <Badge color={filterType === 'cafe' ? 'success' : 'gray'}>
               {cafeCount}
@@ -659,7 +583,7 @@ export default function Spots() {
           <div className="flex flex-wrap items-center gap-2 mb-6 p-4 bg-white rounded-xl shadow-sm border border-gray-100">
             <span className="text-sm text-gray-500">Active filters:</span>
             {searchTerm && (
-              <Badge color="success" size="sm" className="flex items-center gap-1">
+              <Badge color="success" size="sm" className="flex items-center gap-1 bg-[#6B8A62]">
                 Search: "{searchTerm}"
                 <button onClick={() => setSearchTerm('')} className="ml-1 hover:text-gray-300">
                   <FaTimes className="text-xs" />
@@ -667,7 +591,7 @@ export default function Spots() {
               </Badge>
             )}
             {priceFilter !== 'all' && (
-              <Badge color="success" size="sm" className="flex items-center gap-1">
+              <Badge color="success" size="sm" className="flex items-center gap-1 bg-[#6B8A62]">
                 Price: {priceFilter}
                 <button onClick={() => setPriceFilter('all')} className="ml-1 hover:text-gray-300">
                   <FaTimes className="text-xs" />
@@ -675,7 +599,7 @@ export default function Spots() {
               </Badge>
             )}
             {ratingFilter > 0 && (
-              <Badge color="success" size="sm" className="flex items-center gap-1">
+              <Badge color="success" size="sm" className="flex items-center gap-1 bg-[#6B8A62]">
                 {ratingFilter}+ Stars
                 <button onClick={() => setRatingFilter(0)} className="ml-1 hover:text-gray-300">
                   <FaTimes className="text-xs" />
@@ -698,7 +622,7 @@ export default function Spots() {
             <span className="font-semibold text-gray-700">{mockSpots.length}</span> spots
           </p>
           {favorites.length > 0 && (
-            <p className="text-sm text-emerald-600">
+            <p className="text-sm text-[#6B8A62]">
               ❤️ {favorites.length} favorite{favorites.length !== 1 ? 's' : ''}
             </p>
           )}
@@ -715,7 +639,7 @@ export default function Spots() {
             <Button
               onClick={clearAllFilters}
               color="success"
-              className="mx-auto"
+              className="mx-auto bg-[#6B8A62] hover:bg-[#5A7352]"
             >
               Clear all filters
             </Button>

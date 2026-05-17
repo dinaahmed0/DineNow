@@ -109,7 +109,7 @@ export default function FAQSection() {
                   onClick={() => setSelectedCategory(category)}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                     selectedCategory === category
-                      ? "bg-emerald-800 text-white shadow-md"
+                      ? "bg-[#6B8A62] text-white shadow-md"
                       : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
@@ -148,7 +148,7 @@ export default function FAQSection() {
             </div>
 
             {/* Contact Support */}
-            <div className="mt-10 bg-gradient-to-r from-emerald-50 to-emerald-100 rounded-xl p-6 text-center">
+            <div className="mt-10 bg-gradient-to-r from-[#6B8A62]/10 to-[#6B8A62]/20 rounded-xl p-6 text-center">
               <h3 className="font-semibold text-gray-900 mb-2">
                 Still have questions?
               </h3>
@@ -160,7 +160,7 @@ export default function FAQSection() {
                   <FiPhone className="w-4 h-4" />
                   Call Support
                 </button>
-                <button className="flex items-center gap-2 px-4 py-2 bg-emerald-800 text-white rounded-lg hover:bg-emerald-600 transition">
+                <button className="flex items-center gap-2 px-4 py-2 bg-[#6B8A62] text-white rounded-lg hover:bg-[#5A7352] transition">
                   <FiMail className="w-4 h-4" />
                   Email Us
                 </button>
@@ -178,7 +178,7 @@ export default function FAQSection() {
               <div className="space-y-4">
                 {features.map((feature) => (
                   <div key={feature.id} className="flex items-start gap-3">
-                    <div className="text-emerald-500 mt-0.5">{feature.icon}</div>
+                    <div className="text-[#6B8A62] mt-0.5">{feature.icon}</div>
                     <div>
                       <p className="font-medium text-gray-900 text-sm">
                         {feature.title}
@@ -193,7 +193,7 @@ export default function FAQSection() {
             </div>
 
             {/* Quick Tips */}
-            <div className="bg-emerald-600 rounded-xl p-6 text-white">
+            <div className="bg-[#6B8A62] rounded-xl p-6 text-white">
               <div className="flex items-center gap-2 mb-3">
                 <FiCheckCircle className="w-5 h-5" />
                 <h3 className="font-semibold">Pro Tips</h3>

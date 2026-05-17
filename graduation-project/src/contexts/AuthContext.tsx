@@ -1,14 +1,18 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import type { ReactNode } from 'react';
 import { loginUser as loginApiCall, refreshToken as refreshApiCall } from '../services/auth';
-import type { LoginResponse } from '../types/auth';
+import type { AuthTokens, LoginResponse } from '../types/auth';
+import {
+  AUTH_SESSION_UPDATED_EVENT,
+  clearStoredUser,
+  isAccessTokenExpired,
+  readStoredUser,
+  toAuthUser,
+  writeStoredUser,
+  type StoredAuthUser,
+} from '../lib/auth-session';
 
-interface User {
-  email: string;
-  displayName: string;
-  token: string;
-  refreshToken: string;
-}
+export type User = AuthTokens;
 
 interface AuthContextType {
   user: User | null;
@@ -17,8 +21,9 @@ interface AuthContextType {
   authenticate: (userData: User) => void;
   isAuthenticated: boolean;
   isLoading: boolean;
-  refreshAccessToken: () => Promise<boolean>;
-  handleApiError: (error: any) => Promise<void>;
+  authError: string | null;
+  refreshAccessToken: (sessionUser?: User) => Promise<boolean>;
+  handleApiError: (error: unknown) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -35,155 +40,218 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-const readAccessToken = (data: any): string =>
-  data?.token || data?.accessToken || data?.access_token || data?.AccessToken || '';
+const readAccessToken = (data: {
+  token?: string;
+  accessToken?: string;
+  access_token?: string;
+  AccessToken?: string;
+}): string =>
+  data.token || data.accessToken || data.access_token || data.AccessToken || '';
 
-const readRefreshToken = (data: any): string =>
-  data?.refreshToken || data?.refresh || data?.refresh_token || data?.RefreshToken || '';
+const readRefreshToken = (data: {
+  refreshToken?: string;
+  refresh?: string;
+  refresh_token?: string;
+  RefreshToken?: string;
+}): string =>
+  data.refreshToken || data.refresh || data.refresh_token || data.RefreshToken || '';
 
+const TOKEN_MAX_AGE_MS = 24 * 60 * 60 * 1000;
+
+function isUnauthorizedError(error: unknown): boolean {
+  const message = error instanceof Error ? error.message : String(error);
+  return message.includes('401') || message.toLowerCase().includes('token expired');
+}
+
+async function refreshTokensForUser(currentUser: User): Promise<User | null> {
+  if (!currentUser.refreshToken) {
+    return null;
+  }
+
+  try {
+    const response = await refreshApiCall({
+      accessToken: currentUser.token,
+      refreshToken: currentUser.refreshToken,
+    });
+
+    if (!response.succeeded || !response.data) {
+      return null;
+    }
+
+    const accessToken = readAccessToken(response.data);
+    const refreshToken = readRefreshToken(response.data);
+
+    return {
+      email: response.data.email || currentUser.email,
+      displayName: response.data.displayName || currentUser.displayName,
+      token: accessToken || currentUser.token,
+      refreshToken: refreshToken || currentUser.refreshToken,
+    };
+  } catch (error) {
+    console.error('Token refresh error:', error);
+    return null;
+  }
+}
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [authError, setAuthError] = useState<string | null>(null);
+  const userRef = useRef<User | null>(null);
 
-  useEffect(() => {
-    // Check for saved user data on mount
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      try {
-        const userData = JSON.parse(savedUser);
-        
-        // Validate that user data has required fields
-        if (userData && userData.token && userData.email) {
-          setUser(userData);
-          setIsAuthenticated(true);
-          
-          // Only attempt to refresh token if it exists and is expired (older than 24 hours)
-          const tokenTimestamp = localStorage.getItem('tokenTimestamp');
-          const twentyFourHoursAgo = Date.now() - (24 * 60 * 60 * 1000);
-          
-          // Only refresh if timestamp exists and is older than 24 hours
-          if (tokenTimestamp && parseInt(tokenTimestamp) < twentyFourHoursAgo) {
-            if (userData.refreshToken) {
-              refreshAccessToken().catch(error => {
-                console.error('Failed to refresh token on app load:', error);
-                // Don't log out automatically on app load - let the user continue with existing token
-              });
-            }
-          } else if (!tokenTimestamp) {
-            // Set initial timestamp if it doesn't exist
-            localStorage.setItem('tokenTimestamp', Date.now().toString());
-          }
-        } else {
-          // Invalid user data, clear it
-          localStorage.removeItem('user');
-          localStorage.removeItem('tokenTimestamp');
-        }
-      } catch (error) {
-        console.error('Error parsing saved user data:', error);
-        localStorage.removeItem('user');
-        localStorage.removeItem('tokenTimestamp');
-      }
-    }
-    
-    setIsLoading(false);
-  }, []);
+  userRef.current = user;
 
-  const login = async (email: string, password: string) => {
-    try {
-      const response: LoginResponse = await loginApiCall({ email, password });
-      
-      if (response.succeeded && response.data) {
-        const accessToken = readAccessToken(response.data);
-        const refreshToken = readRefreshToken(response.data);
-        const userData: User = {
-          email: response.data.email || email,
-          displayName: response.data.displayName || 'User',
-          token: accessToken,
-          refreshToken: refreshToken
-        };
-        
-        setUser(userData);
-        setIsAuthenticated(true);
-        localStorage.setItem('user', JSON.stringify(userData));
-        localStorage.setItem('tokenTimestamp', Date.now().toString());
-      } else {
-        throw new Error(response.message || 'Login failed');
-      }
-    } catch (error) {
-      console.error('Login error:', error);
-      throw error;
-    }
-  };
-
-  const logout = () => {
+  const logout = useCallback(() => {
     setUser(null);
     setIsAuthenticated(false);
     setIsLoading(false);
-    localStorage.removeItem('user');
-    localStorage.removeItem('tokenTimestamp');
+    clearStoredUser();
+  }, []);
+
+  useEffect(() => {
+    const onSessionUpdated = (event: Event) => {
+      const detail = (event as CustomEvent<StoredAuthUser>).detail;
+      if (!detail?.token) return;
+      setUser(toAuthUser(detail));
+      setIsAuthenticated(true);
+      setAuthError(null);
+    };
+
+    window.addEventListener(AUTH_SESSION_UPDATED_EVENT, onSessionUpdated);
+    return () => window.removeEventListener(AUTH_SESSION_UPDATED_EVENT, onSessionUpdated);
+  }, []);
+
+  const refreshAccessToken = useCallback(async (sessionUser?: User): Promise<boolean> => {
+    const currentUser = sessionUser ?? userRef.current;
+
+    if (!currentUser?.refreshToken) {
+      return false;
+    }
+
+    const updatedUser = await refreshTokensForUser(currentUser);
+    if (!updatedUser) {
+      return false;
+    }
+
+    setUser(updatedUser);
+    setIsAuthenticated(true);
+    writeStoredUser(updatedUser);
+    return true;
+  }, []);
+
+  const handleApiError = useCallback(async (error: unknown) => {
+    if (!isUnauthorizedError(error)) {
+      return;
+    }
+
+    const refreshed = await refreshAccessToken();
+    if (!refreshed) {
+      setAuthError('Your session has expired. Please sign in again.');
+      logout();
+    }
+  }, [refreshAccessToken, logout]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const initializeAuth = async () => {
+      setAuthError(null);
+      const stored = readStoredUser();
+
+      if (!stored?.token || !stored?.email) {
+        clearStoredUser();
+        if (!cancelled) setIsLoading(false);
+        return;
+      }
+
+      try {
+        let sessionUser = toAuthUser(stored);
+
+        const tokenTimestamp = localStorage.getItem('tokenTimestamp');
+        const isTimestampStale =
+          tokenTimestamp && parseInt(tokenTimestamp, 10) < Date.now() - TOKEN_MAX_AGE_MS;
+        const needsRefresh =
+          Boolean(sessionUser.refreshToken) &&
+          (isAccessTokenExpired(sessionUser.token) || isTimestampStale);
+
+        if (needsRefresh) {
+          const updatedUser = await refreshTokensForUser(sessionUser);
+          if (cancelled) return;
+
+          if (!updatedUser) {
+            setAuthError('Your session has expired. Please sign in again.');
+            clearStoredUser();
+            if (!cancelled) setIsLoading(false);
+            return;
+          }
+
+          sessionUser = updatedUser;
+          writeStoredUser(updatedUser);
+        } else if (!tokenTimestamp) {
+          writeStoredUser(stored);
+        }
+
+        if (!cancelled) {
+          setUser(sessionUser);
+          setIsAuthenticated(true);
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.error('Error restoring session:', error);
+        clearStoredUser();
+        if (!cancelled) {
+          setAuthError('Unable to restore your session. Please sign in again.');
+          setIsLoading(false);
+        }
+      }
+    };
+
+    void initializeAuth();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const login = async (email: string, password: string) => {
+    // Avoid sending a stale Bearer token on the login request
+    clearStoredUser();
+    setUser(null);
+    setIsAuthenticated(false);
+
+    const response: LoginResponse = await loginApiCall({ email, password });
+
+    if (!response.succeeded || !response.data) {
+      throw new Error(response.message || response.errors?.[0] || 'Login failed');
+    }
+
+    const accessToken = readAccessToken(response.data);
+    const refreshToken = readRefreshToken(response.data);
+
+    if (!accessToken) {
+      throw new Error('Login succeeded but no access token was returned. Please try again.');
+    }
+
+    const userData: User = {
+      email: response.data.email || email,
+      displayName: response.data.displayName || 'User',
+      token: accessToken,
+      refreshToken,
+    };
+
+    setAuthError(null);
+    setUser(userData);
+    setIsAuthenticated(true);
+    setIsLoading(false);
+    writeStoredUser(userData);
   };
 
   const authenticate = (userData: User) => {
+    setAuthError(null);
     setUser(userData);
     setIsAuthenticated(true);
-    localStorage.setItem('user', JSON.stringify(userData));
-    localStorage.setItem('tokenTimestamp', Date.now().toString());
-  };
-
-  const refreshAccessToken = async (): Promise<boolean> => {
-    try {
-      if (!user || !user.refreshToken) {
-        console.log('Cannot refresh token: missing user or refresh token');
-        return false;
-      }
-
-      console.log('Attempting token refresh for user:', user.email);
-      const response = await refreshApiCall({
-        accessToken: user.token,
-        refreshToken: user.refreshToken
-      });
-
-      console.log('Token refresh response:', response);
-
-      if (response.succeeded && response.data) {
-        const accessToken = readAccessToken(response.data);
-        const refreshToken = readRefreshToken(response.data);
-        const updatedUser: User = {
-          email: response.data.email || user.email,
-          displayName: response.data.displayName || user.displayName,
-          token: accessToken || user.token,
-          refreshToken: refreshToken || user.refreshToken
-        };
-
-        setUser(updatedUser);
-        localStorage.setItem('user', JSON.stringify(updatedUser));
-        localStorage.setItem('tokenTimestamp', Date.now().toString());
-        console.log('Token refresh successful');
-        return true;
-      } else {
-        console.log('Token refresh failed:', response.message);
-        // Only log out if this is from an API call, not from app load
-        return false;
-      }
-    } catch (error) {
-      console.error('Token refresh error:', error);
-      // Don't automatically log out - let the user continue with existing token
-      return false;
-    }
-  };
-
-  // Global error handler for API calls
-  const handleApiError = async (error: any) => {
-    if (error.message?.includes('401') || error.message?.includes('Token expired')) {
-      console.log('401 error detected, attempting automatic token refresh');
-      const refreshed = await refreshAccessToken();
-      if (!refreshed) {
-        console.log('Token refresh failed, but keeping user logged in');
-        // Don't automatically log out - let the user continue with existing token
-      }
-    }
+    writeStoredUser(userData);
   };
 
   const value: AuthContextType = {
@@ -193,13 +261,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     authenticate,
     isAuthenticated,
     isLoading,
+    authError,
     refreshAccessToken,
-    handleApiError
+    handleApiError,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

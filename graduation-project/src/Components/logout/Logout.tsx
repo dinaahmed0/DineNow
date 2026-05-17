@@ -27,11 +27,10 @@ export default function Logout() {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50">
       <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto mb-4"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#6B8A62] mx-auto mb-4"></div>
         <h2 className="text-xl font-semibold text-gray-800 mb-2">Logging out...</h2>
         <p className="text-gray-600">You will be redirected to the home page.</p>
       </div>
     </div>
   );
 }
-

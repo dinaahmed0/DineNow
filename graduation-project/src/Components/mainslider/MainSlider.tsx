@@ -16,7 +16,7 @@ function NextArrow(props: CustomArrowProps) {
       className="absolute right-[-40px] top-1/2 transform -translate-y-1/2 z-20 cursor-pointer"
       onClick={onClick}
     >
-      <FaChevronRight className="text-emerald-600 hover:text-emerald-700 transition text-2xl" />
+      <FaChevronRight className="text-[#6B8A62] hover:text-[#5A7352] transition text-2xl" />
     </div>
   );
 }
@@ -28,7 +28,7 @@ function PrevArrow(props: CustomArrowProps) {
       className="absolute left-[-40px] top-1/2 transform -translate-y-1/2 z-20 cursor-pointer"
       onClick={onClick}
     >
-      <FaChevronLeft className="text-emerald-600 hover:text-emerald-700 transition text-2xl" />
+      <FaChevronLeft className="text-[#6B8A62] hover:text-[#5A7352] transition text-2xl" />
     </div>
   );
 }
@@ -196,13 +196,13 @@ const SliderRestaurantModal: FC<SliderRestaurantModalProps> = ({
             <div className="flex-1">
               <h2 className="text-xl md:text-2xl font-bold text-gray-900 leading-tight">{restaurant.name}</h2>
               <div className="flex flex-wrap items-center gap-2 mt-2">
-                <div className="flex items-center gap-1 bg-green-50 px-2 py-0.5 rounded-md">
+                <div className="flex items-center gap-1 bg-[#6B8A62]/10 px-2 py-0.5 rounded-md">
                   <FaStar className="text-yellow-400 text-xs" />
                   <span className="text-sm font-semibold text-gray-800">{restaurant.rating}</span>
                   <span className="text-xs text-gray-500">({restaurant.reviewCount})</span>
                 </div>
                 <span className="text-gray-300">•</span>
-                <span className="text-sm font-medium text-emerald-600">{restaurant.priceRange}</span>
+                <span className="text-sm font-medium text-[#6B8A62]">{restaurant.priceRange}</span>
                 <span className="text-gray-300">•</span>
                 <span className="text-xs text-gray-500 capitalize">restaurant</span>
               </div>
@@ -213,8 +213,8 @@ const SliderRestaurantModal: FC<SliderRestaurantModalProps> = ({
 
           <div className="space-y-3 mb-5">
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 bg-emerald-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                <FaMapMarkerAlt className="text-emerald-600 text-sm" />
+              <div className="w-8 h-8 bg-[#6B8A62]/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                <FaMapMarkerAlt className="text-[#6B8A62] text-sm" />
               </div>
               <div className="flex-1">
                 <p className="text-xs text-gray-400 uppercase tracking-wide">Location</p>
@@ -225,8 +225,8 @@ const SliderRestaurantModal: FC<SliderRestaurantModalProps> = ({
 
             <div className="grid grid-cols-2 gap-3">
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 bg-emerald-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <FaClock className="text-emerald-600 text-sm" />
+                <div className="w-8 h-8 bg-[#6B8A62]/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <FaClock className="text-[#6B8A62] text-sm" />
                 </div>
                 <div className="flex-1">
                   <p className="text-xs text-gray-400 uppercase tracking-wide">Service</p>
@@ -234,8 +234,8 @@ const SliderRestaurantModal: FC<SliderRestaurantModalProps> = ({
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 bg-emerald-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <FaPhoneAlt className="text-emerald-600 text-sm" />
+                <div className="w-8 h-8 bg-[#6B8A62]/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <FaPhoneAlt className="text-[#6B8A62] text-sm" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-xs text-gray-400 uppercase tracking-wide">Phone</p>
@@ -262,7 +262,7 @@ const SliderRestaurantModal: FC<SliderRestaurantModalProps> = ({
 
           <div className="flex gap-3 pt-2 border-t border-gray-100">
             <ProtectedButton
-              className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-2.5 rounded-lg hover:shadow-lg hover:scale-102 transition-all duration-300 font-semibold flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full bg-gradient-to-r from-[#6B8A62] to-[#5A7352] text-white py-2.5 rounded-lg hover:shadow-lg hover:scale-102 transition-all duration-300 font-semibold flex items-center justify-center gap-2 cursor-pointer"
               onClick={() => {
                 onReserve(restaurant);
                 onClose();
@@ -309,7 +309,7 @@ function RestaurantCard({
           
           {/* Discount Badge */}
           {restaurant.discount && (
-            <div className="absolute top-3 left-3 bg-emerald-600 text-white px-2 py-1 rounded-md text-xs font-bold">
+            <div className="absolute top-3 left-3 bg-[#6B8A62] text-white px-2 py-1 rounded-md text-xs font-bold">
               {restaurant.discount}
             </div>
           )}
@@ -359,7 +359,7 @@ function RestaurantCard({
               </span>
             </div>
             <div className="flex items-center gap-1">
-              <span className="text-sm font-semibold text-emerald-600">
+              <span className="text-sm font-semibold text-[#6B8A62]">
                 {restaurant.priceRange}
               </span>
             </div>
@@ -367,7 +367,7 @@ function RestaurantCard({
 
           <Button
             onClick={() => onViewDetails(restaurant)}
-            className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-2.5 rounded-lg hover:shadow-lg hover:scale-102 transition-all duration-300 font-semibold flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full bg-gradient-to-r from-[#6B8A62] to-[#5A7352] text-white py-2.5 rounded-lg hover:shadow-lg hover:scale-102 transition-all duration-300 font-semibold flex items-center justify-center gap-2 cursor-pointer"
           >
             View Details
           </Button>
@@ -431,17 +431,17 @@ export default function MainSlider() {
         {/* Header Section */}
         <div className="text-center mb-12 relative">
         {/* Decorative emerald blobs */}
-        <div className="absolute left-1/4 top-1/2 -translate-y-1/2 w-32 h-32 bg-emerald-100 rounded-full blur-2xl opacity-30 -z-10"></div>
-        <div className="absolute right-1/4 bottom-0 w-40 h-40 bg-emerald-50 rounded-full blur-2xl opacity-40 -z-10"></div>
+        <div className="absolute left-1/4 top-1/2 -translate-y-1/2 w-32 h-32 bg-[#6B8A62]/10 rounded-full blur-2xl opacity-30 -z-10"></div>
+        <div className="absolute right-1/4 bottom-0 w-40 h-40 bg-[#6B8A62]/10 rounded-full blur-2xl opacity-40 -z-10"></div>
         
-        <span className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-semibold rounded-full mb-4">
+        <span className="inline-flex items-center gap-2 px-3 py-1 bg-[#6B8A62]/10 text-[#6B8A62] text-xs font-semibold rounded-full mb-4">
           <FaStar className="text-yellow-400 text-xs" />
           RECOMMENDED FOR YOU
           <FaStar className="text-yellow-400 text-xs" />
         </span>
         
         <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Discover <span className="text-emerald-600">Trending</span> Tables
+            Discover <span className="text-[#6B8A62]">Trending</span> Tables
           </h2>
         
         <p className="text-gray-500 mx-auto">
@@ -482,14 +482,14 @@ export default function MainSlider() {
 
         {/* Notification Toast */}
         {showNotification && (
-          <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-emerald-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-transform duration-300 ease-out animate-slide-up">
+          <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-[#6B8A62] text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-transform duration-300 ease-out animate-slide-up">
             {showNotification}
           </div>
         )}
 
          <div className="mt-12 text-center">
           <Link to= "/spots">
-          <button className="border border-emerald-700 hover:scale-105 transition-all duration-300 text-emerald-700 px-8 py-3 rounded-lg font-bold">
+          <button className="border border-[#6B8A62] hover:scale-105 transition-all duration-300 text-[#6B8A62] px-8 py-3 rounded-lg font-bold">
             Check all Spots Now →
           </button>
           </Link>

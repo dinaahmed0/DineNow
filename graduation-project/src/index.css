@@ -1,10 +1,24 @@
 @import "tailwindcss";
 @import "flowbite";
 @import "slick-carousel/slick/slick.css";
-/* Override slick-theme fonts to prevent 403 from forbidden font hosts.
-   slick-theme.css normally references ./fonts/slick.ttf (relative to node_modules),
-   which may resolve to a forbidden URL in your deployment.
-*/
+
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+@theme {
+  --color-emerald-50: #6B8A62;
+  --color-emerald-100: #6B8A62;
+  --color-emerald-200: #6B8A62;
+  --color-emerald-300: #6B8A62;
+  --color-emerald-400: #6B8A62;
+  --color-emerald-500: #6B8A62;
+  --color-emerald-600: #6B8A62;  /* ← Your background */
+  --color-emerald-700: #6B8A62;
+  --color-emerald-800: #6B8A62;
+  --color-emerald-900: #6B8A62;
+}
+
+
 @font-face {
   font-family: 'slick';
   src: url('/slick-fonts/slick.eot');

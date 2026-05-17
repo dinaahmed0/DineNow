@@ -1,47 +1,119 @@
 import { apiGet, apiPost, apiPut } from './api/client';
+import { API } from '../constants/api';
+import { buildQueryWithArray } from '../lib/api-helpers';
 import type {
   CreateReservationCommand,
   ReservationActionResponse,
   ReservationCreateResponse,
+  ReservationIdCommand,
+  ReservationStaffDetailsResponse,
+  ReservationStaffListResponse,
+  ReservationSuggestionsResponse,
   ReservationUserDetailsResponse,
   ReservationUserListResponse,
   UserReservationsFilters,
 } from '../types/reservation';
 
-const buildQueryString = (filters?: UserReservationsFilters): string => {
-  if (!filters) return '';
-
-  const params = new URLSearchParams();
-
-  filters.status?.forEach((status) => params.append('Status', String(status)));
-  if (filters.restaurantId !== undefined) params.append('RestaurantId', String(filters.restaurantId));
-  if (filters.date) params.append('Date', filters.date);
-  if (filters.from) params.append('From', filters.from);
-  if (filters.to) params.append('To', filters.to);
-  if (filters.pageIndex !== undefined) params.append('PageIndex', String(filters.pageIndex));
-  if (filters.pageSize !== undefined) params.append('PageSize', String(filters.pageSize));
-
-  const queryString = params.toString();
-  return queryString ? `?${queryString}` : '';
-};
-
-export async function createReservation(command: CreateReservationCommand): Promise<ReservationCreateResponse> {
-  return apiPost<ReservationCreateResponse>('/api/Reservation/Create', command);
+function buildReservationQueryString(filters?: UserReservationsFilters): string {
+  return buildQueryWithArray(
+    {
+      RestaurantId: filters?.restaurantId,
+      Date: filters?.date,
+      From: filters?.from,
+      To: filters?.to,
+      PageIndex: filters?.pageIndex,
+      PageSize: filters?.pageSize,
+      UserId: undefined,
+    },
+    { Status: filters?.status }
+  );
 }
 
-export async function getUserReservationById(reservationId: number): Promise<ReservationUserDetailsResponse> {
-  return apiGet<ReservationUserDetailsResponse>(`/api/Reservation/User/${reservationId}`);
+export async function createReservation(
+  command: CreateReservationCommand
+): Promise<ReservationCreateResponse> {
+  return apiPost<ReservationCreateResponse>(API.reservation.create, command);
 }
 
-export async function getAllUserReservations(filters?: UserReservationsFilters): Promise<ReservationUserListResponse> {
-  return apiGet<ReservationUserListResponse>(`/api/Reservation/User/GetAllReservation${buildQueryString(filters)}`);
+export async function getUserReservationById(
+  reservationId: number
+): Promise<ReservationUserDetailsResponse> {
+  return apiGet<ReservationUserDetailsResponse>(API.reservation.userById(reservationId));
 }
 
-export async function cancelReservation(reservationId: number): Promise<ReservationActionResponse> {
-  return apiPut<ReservationActionResponse>('/api/Reservation/Cancel', { reservationId });
+export async function getAllUserReservations(
+  filters?: UserReservationsFilters
+): Promise<ReservationUserListResponse> {
+  return apiGet<ReservationUserListResponse>(
+    `${API.reservation.userList}${buildReservationQueryString(filters)}`
+  );
 }
 
-export async function updateReservationTime(id: number, startDateTime: string, endDateTime: string): Promise<ReservationUserDetailsResponse> {
-  return apiPut<ReservationUserDetailsResponse>('/api/Reservation/Update-Time', { id, startDateTime, endDateTime });
+export async function getStaffReservationById(
+  reservationId: number
+): Promise<ReservationStaffDetailsResponse> {
+  return apiGet<ReservationStaffDetailsResponse>(API.reservation.staffById(reservationId));
 }
 
+export async function getAllStaffReservations(
+  filters?: UserReservationsFilters & { userId?: string }
+): Promise<ReservationStaffListResponse> {
+  const qs = buildQueryWithArray(
+    {
+      UserId: filters?.userId,
+      Date: filters?.date,
+      From: filters?.from,
+      To: filters?.to,
+      PageIndex: filters?.pageIndex,
+      PageSize: filters?.pageSize,
+    },
+    { Status: filters?.status }
+  );
+  return apiGet<ReservationStaffListResponse>(`${API.reservation.staffList}${qs}`);
+}
+
+export async function cancelReservation(
+  reservationId: number
+): Promise<ReservationActionResponse> {
+  const body: ReservationIdCommand = { reservationId };
+  return apiPut<ReservationActionResponse>(API.reservation.cancel, body);
+}
+
+export async function approveReservation(
+  reservationId: number
+): Promise<ReservationStaffDetailsResponse> {
+  const body: ReservationIdCommand = { reservationId };
+  return apiPut<ReservationStaffDetailsResponse>(API.reservation.approve, body);
+}
+
+export async function rejectReservation(
+  reservationId: number
+): Promise<ReservationActionResponse> {
+  const body: ReservationIdCommand = { reservationId };
+  return apiPut<ReservationActionResponse>(API.reservation.reject, body);
+}
+
+export async function completeReservation(
+  reservationId: number
+): Promise<ReservationActionResponse> {
+  const body: ReservationIdCommand = { reservationId };
+  return apiPut<ReservationActionResponse>(API.reservation.complete, body);
+}
+
+export async function updateReservationTime(
+  id: number,
+  startDateTime: string,
+  endDateTime: string
+): Promise<ReservationUserDetailsResponse> {
+  return apiPut<ReservationUserDetailsResponse>(API.reservation.updateTime, {
+    id,
+    startDateTime,
+    endDateTime,
+  });
+}
+
+export async function getReservationSuggestions(
+  reservationId: number
+): Promise<ReservationSuggestionsResponse> {
+  return apiGet<ReservationSuggestionsResponse>(API.reservation.suggestions(reservationId));
+}

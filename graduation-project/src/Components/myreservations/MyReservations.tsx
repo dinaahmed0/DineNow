@@ -68,7 +68,7 @@ const canBeCancelled = (status: string) => {
 };
 
 const MyReservations = () => {
-  const { user } = useAuth();
+  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const [selectedReservation, setSelectedReservation] = useState<number | null>(null);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [reservationToCancel, setReservationToCancel] = useState<number | null>(null);
@@ -86,7 +86,7 @@ const MyReservations = () => {
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
 
   const fetchReservations = async () => {
-    if (!user) return;
+    if (!user?.token) return;
     setIsLoading(true);
     setError(null);
     try {
@@ -94,18 +94,26 @@ const MyReservations = () => {
       if (!response.succeeded) {
         throw new Error(response.message || 'Failed to fetch reservations');
       }
-      setReservations(response.data.data || []);
+      setReservations(response.data?.data ?? []);
     } catch (fetchError) {
       const message = fetchError instanceof Error ? fetchError.message : 'Failed to fetch reservations';
-      setError(message);
+      const isServerError = message.includes('500');
+      setError(
+        isServerError
+          ? 'The server could not load your reservations. Please try again in a moment or sign out and back in.'
+          : message
+      );
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchReservations();
-  }, [user]);
+    if (authLoading || !isAuthenticated || !user?.token) {
+      return;
+    }
+    void fetchReservations();
+  }, [authLoading, isAuthenticated, user?.token]);
 
   const activeReservations = useMemo(
     () =>
@@ -173,20 +181,16 @@ const MyReservations = () => {
         comment: reviewComment.trim()
       };
       
-      const response = await addReview(reviewData);
-      
-      if (response) {
-        alert('Thank you for your review!');
-        setShowReviewModal(false);
-        setReviewComment('');
-        setReviewRating(5);
-        setSelectedReservationForReview(null);
-      } else {
-        alert('Failed to submit review');
-      }
+      await addReview(reviewData);
+
+      alert('Thank you for your review!');
+      setShowReviewModal(false);
+      setReviewComment('');
+      setReviewRating(5);
+      setSelectedReservationForReview(null);
     } catch (error) {
       console.error('Error submitting review:', error);
-      alert('Network error occurred');
+      alert(error instanceof Error ? error.message : 'Failed to submit review');
     } finally {
       setIsSubmittingReview(false);
     }
@@ -197,13 +201,13 @@ const MyReservations = () => {
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-6">
         <div className="text-center max-w-md">
           <div className="bg-white rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center shadow-lg">
-            <CalendarIcon className="w-10 h-10 text-emerald-600" />
+            <CalendarIcon className="w-10 h-10 text-[#6B8A62]" />
           </div>
           <h2 className="text-2xl font-bold text-gray-900 mb-2">No Reservations Yet</h2>
           <p className="text-gray-600 mb-6">Please log in to view and manage your restaurant reservations.</p>
           <Link
             to="/login"
-            className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-all transform hover:scale-105"
+            className="inline-flex items-center px-6 py-3 bg-[#6B8A62] text-white rounded-lg hover:bg-[#5A7352] transition-all transform hover:scale-105"
           >
             Sign In to Continue
             <ChevronRightIcon className="w-5 h-5 ml-2" />
@@ -223,8 +227,8 @@ const MyReservations = () => {
                 <p className="text-gray-500 text-sm uppercase tracking-wide">Total Reservations</p>
                 <p className="text-3xl font-bold text-gray-900 mt-1">{reservations.length}</p>
               </div>
-              <div className="bg-emerald-100 rounded-full p-3">
-                <CalendarIcon className="w-6 h-6 text-emerald-600" />
+              <div className="bg-[#6B8A62]/10 rounded-full p-3">
+                <CalendarIcon className="w-6 h-6 text-[#6B8A62]" />
               </div>
             </div>
           </div>
@@ -261,7 +265,7 @@ const MyReservations = () => {
             <button
               onClick={() => setShowPast(false)}
               className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                !showPast ? 'bg-emerald-600 text-white shadow-md' : 'bg-white text-gray-600 hover:bg-gray-50'
+                !showPast ? 'bg-[#6B8A62] text-white shadow-md' : 'bg-white text-gray-600 hover:bg-gray-50'
               }`}
             >
               Upcoming Reservations
@@ -269,7 +273,7 @@ const MyReservations = () => {
             <button
               onClick={() => setShowPast(true)}
               className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                showPast ? 'bg-emerald-600 text-white shadow-md' : 'bg-white text-gray-600 hover:bg-gray-50'
+                showPast ? 'bg-[#6B8A62] text-white shadow-md' : 'bg-white text-gray-600 hover:bg-gray-50'
               }`}
             >
               Past Reservations
@@ -288,7 +292,7 @@ const MyReservations = () => {
         ) : error ? (
           <div className="bg-white rounded-xl shadow-sm p-12 text-center">
             <p className="text-red-600 mb-4">{error}</p>
-            <button onClick={fetchReservations} className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700">
+            <button onClick={fetchReservations} className="px-4 py-2 bg-[#6B8A62] text-white rounded-lg hover:bg-[#5A7352]">
               Try Again
             </button>
           </div>
@@ -300,7 +304,7 @@ const MyReservations = () => {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">No Upcoming Reservations</h3>
               <p className="text-gray-500 mb-6">Ready for a dining experience? Book a table at your favorite restaurant.</p>
-              <Link to="/restaurants" className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-all">
+              <Link to="/spots" className="inline-flex items-center px-6 py-3 bg-[#6B8A62] text-white rounded-lg hover:bg-[#5A7352] transition-all">
                 Browse Restaurants
                 <ChevronRightIcon className="w-5 h-5 ml-2" />
               </Link>
@@ -336,7 +340,7 @@ const MyReservations = () => {
                           </div>
                           <button
                             onClick={() => setSelectedReservation(isExpanded ? null : reservation.id)}
-                            className="text-emerald-600 hover:text-emerald-700 transition-colors"
+                            className="text-[#6B8A62] hover:text-[#5A7352] transition-colors"
                           >
                             <ChevronRightIcon className={`w-5 h-5 transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
                           </button>
@@ -344,15 +348,15 @@ const MyReservations = () => {
 
                         <div className="flex flex-wrap gap-4 mb-4 mt-3">
                           <div className="flex items-center text-gray-700">
-                            <CalendarIcon className="w-5 h-5 mr-2 text-emerald-600" />
+                            <CalendarIcon className="w-5 h-5 mr-2 text-[#6B8A62]" />
                             <span>{formatDate(reservation.startDateTime)}</span>
                           </div>
                           <div className="flex items-center text-gray-700">
-                            <ClockIcon className="w-5 h-5 mr-2 text-emerald-600" />
+                            <ClockIcon className="w-5 h-5 mr-2 text-[#6B8A62]" />
                             <span>{formatTime(reservation.startDateTime)}</span>
                           </div>
                           <div className="flex items-center text-gray-700">
-                            <UsersIcon className="w-5 h-5 mr-2 text-emerald-600" />
+                            <UsersIcon className="w-5 h-5 mr-2 text-[#6B8A62]" />
                             <span>
                               {reservation.numberOfGuests} {reservation.numberOfGuests === 1 ? 'Guest' : 'Guests'}
                             </span>
@@ -405,7 +409,7 @@ const MyReservations = () => {
                   </div>
                   <button 
                     onClick={() => handleOpenReviewModal(reservation)}
-                    className="text-emerald-600 hover:text-emerald-700 text-sm font-medium"
+                    className="text-[#6B8A62] hover:text-[#5A7352] text-sm font-medium"
                   >
                     Leave a Review
                     <StarIcon className="w-4 h-4 inline ml-1" />
@@ -488,7 +492,7 @@ const MyReservations = () => {
                 value={reviewComment}
                 onChange={(e) => setReviewComment(e.target.value)}
                 placeholder="Share your experience at this restaurant..."
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6B8A62] focus:border-[#6B8A62]"
               />
             </div>
 
@@ -496,7 +500,7 @@ const MyReservations = () => {
               <button
                 onClick={handleSubmitReview}
                 disabled={isSubmittingReview}
-                className="flex-1 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:bg-emerald-300 transition-colors flex items-center justify-center gap-2"
+                className="flex-1 px-4 py-2 bg-[#6B8A62] text-white rounded-lg hover:bg-[#5A7352] disabled:bg-[#6B8A62]/50 transition-colors flex items-center justify-center gap-2"
               >
                 {isSubmittingReview ? (
                   <>

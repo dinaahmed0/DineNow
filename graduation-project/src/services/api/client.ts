@@ -199,24 +199,23 @@
 // client.ts - Axios version (compatible with Axios v0.x and v1.x)
 import axios from 'axios';
 import type { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
+import { API, isPublicAuthEndpoint } from '../../constants/api';
+import { APP_ROUTES } from '../../constants/routes';
+import {
+  clearStoredUser,
+  readStoredUser,
+  writeStoredUser,
+  type StoredAuthUser,
+} from '../../lib/auth-session';
 
-export const API_BASE_URL = 'https://reservationproj.runasp.net';
+export const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ?? 'https://reservationproj.runasp.net';
 
-// Types
 interface ErrorPayload {
   message?: string;
   errors?: string[];
   Message?: string;
   Errors?: string[];
-}
-
-interface StoredUser {
-  email: string;
-  displayName: string;
-  token: string;
-  refreshToken: string;
-  accessToken?: string;
-  refresh?: string;
 }
 
 interface RefreshResponse {
@@ -230,19 +229,8 @@ interface RefreshResponse {
   };
 }
 
-// Helper functions
-const getStoredUser = (): StoredUser | null => {
-  const userStr = localStorage.getItem('user');
-  if (!userStr) return null;
-  try {
-    return JSON.parse(userStr) as StoredUser;
-  } catch {
-    return null;
-  }
-};
-
 const getAuthToken = (): string | null => {
-  const user = getStoredUser();
+  const user = readStoredUser();
   return user?.token || user?.accessToken || null;
 };
 
@@ -282,7 +270,7 @@ const processQueue = (error: Error | null, token: string | null = null) => {
 
 // Refresh token function
 const refreshAccessToken = async (): Promise<string | null> => {
-  const user = getStoredUser();
+  const user = readStoredUser();
   const currentToken = user?.token || user?.accessToken || '';
   const currentRefreshToken = user?.refreshToken || user?.refresh || '';
   
@@ -290,7 +278,7 @@ const refreshAccessToken = async (): Promise<string | null> => {
 
   try {
     const response = await axios.post<RefreshResponse>(
-      `${API_BASE_URL}/api/Account/refresh`,
+      `${API_BASE_URL}${API.account.refresh}`,
       {
         accessToken: currentToken,
         refreshToken: currentRefreshToken,
@@ -303,14 +291,14 @@ const refreshAccessToken = async (): Promise<string | null> => {
     );
 
     const payload = response.data;
-    const nextToken = payload.data?.token || payload.data?.accessToken;
+    const nextToken = payload.data?.token;
     const nextRefresh = payload.data?.refreshToken || currentRefreshToken;
     
-    if (!payload.succeeded || !nextToken) {
+    if (!payload.succeeded || !nextToken || !user) {
       return null;
     }
 
-    const updatedUser: StoredUser = {
+    const updatedUser: StoredAuthUser = {
       email: payload.data?.email || user.email,
       displayName: payload.data?.displayName || user.displayName,
       token: nextToken,
@@ -319,7 +307,7 @@ const refreshAccessToken = async (): Promise<string | null> => {
       refresh: nextRefresh,
     };
 
-    localStorage.setItem('user', JSON.stringify(updatedUser));
+    writeStoredUser(updatedUser);
     return nextToken;
   } catch (error) {
     console.error('Refresh token error:', error);
@@ -330,9 +318,11 @@ const refreshAccessToken = async (): Promise<string | null> => {
 // Request interceptor - adds token to every request
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = getAuthToken();
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    if (!isPublicAuthEndpoint(config.url)) {
+      const token = getAuthToken();
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
     }
     return config;
   },
@@ -349,14 +339,22 @@ apiClient.interceptors.response.use(
   },
   async (error: AxiosError) => {
     const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
-    
+    const status = error.response?.status || 500;
+    const statusText = error.response?.statusText || 'Unknown Error';
+    const responseData = error.response?.data as ErrorPayload | undefined;
+
+    // Login/register/etc. — surface the real API error, never refresh or redirect
+    if (isPublicAuthEndpoint(originalRequest.url)) {
+      throw toError(status, statusText, responseData);
+    }
+
     // Don't attempt refresh for refresh endpoint itself
-    if (originalRequest.url?.includes('/api/Account/refresh')) {
+    if (originalRequest.url?.includes(API.account.refresh)) {
       return Promise.reject(error);
     }
-    
+
     // Check if it's a 401 and we haven't retried yet
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (status === 401 && !originalRequest._retry) {
       if (isRefreshing) {
         // Queue the request while refresh is in progress
         return new Promise((resolve, reject) => {
@@ -389,26 +387,24 @@ apiClient.interceptors.response.use(
           // Retry the original request
           return apiClient(originalRequest);
         } else {
-          // Refresh failed - clear user and redirect to login
           processQueue(new Error('Refresh failed'), null);
-          localStorage.removeItem('user');
-          window.location.href = '/login';
+          clearStoredUser();
+          if (!window.location.pathname.includes(APP_ROUTES.login)) {
+            window.location.href = APP_ROUTES.login;
+          }
           return Promise.reject(error);
         }
       } catch (refreshError) {
         processQueue(refreshError as Error, null);
-        localStorage.removeItem('user');
-        window.location.href = '/login';
+        clearStoredUser();
+        if (!window.location.pathname.includes(APP_ROUTES.login)) {
+          window.location.href = APP_ROUTES.login;
+        }
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;
       }
     }
-    
-    // Handle non-401 errors
-    const status = error.response?.status || 500;
-    const statusText = error.response?.statusText || 'Unknown Error';
-    const responseData = error.response?.data as ErrorPayload | undefined;
     
     // Log server errors
     if (status >= 500) {

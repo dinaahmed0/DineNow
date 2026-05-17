@@ -85,7 +85,7 @@ export default function RestaurantDetails({ isAdmin = false, onEditRestaurant }:
   if (error || !restaurant) {
     return (
       <div className="max-w-6xl mx-auto p-6">
-        <Link to="/restaurants" className="inline-flex items-center px-4 py-2 mb-6 text-emerald-600 border border-emerald-600 rounded hover:bg-emerald-50">
+        <Link to="/restaurants" className="inline-flex items-center px-4 py-2 mb-6 text-[#6B8A62] border border-[#6B8A62] rounded hover:bg-[#6B8A62]/10">
           ← Back to Restaurants
         </Link>
         <div className="text-center py-12">
@@ -103,7 +103,7 @@ export default function RestaurantDetails({ isAdmin = false, onEditRestaurant }:
   return (
     <div className="max-w-6xl mx-auto p-6">
       {/* Back Navigation */}
-      <Link to="/restaurants" className="inline-flex items-center px-4 py-2 mb-6 text-emerald-600 border border-emerald-600 rounded hover:bg-emerald-50">
+      <Link to="/restaurants" className="inline-flex items-center px-4 py-2 mb-6 text-[#6B8A62] border border-[#6B8A62] rounded hover:bg-[#6B8A62]/10">
         ← Back to Restaurants
       </Link>
 
@@ -120,7 +120,7 @@ export default function RestaurantDetails({ isAdmin = false, onEditRestaurant }:
                     <span className="font-semibold text-gray-700">{restaurant.rating}</span>
                     <span className="text-gray-500">({restaurant.reviewCount} reviews)</span>
                   </div>
-                  <Badge color="success" className="bg-emerald-600">
+                  <Badge color="success" className="bg-[#6B8A62]">
                     {restaurant.cuisine}
                   </Badge>
                   <Badge color="light">{restaurant.priceRange}</Badge>
@@ -147,25 +147,25 @@ export default function RestaurantDetails({ isAdmin = false, onEditRestaurant }:
             {/* Restaurant Details */}
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <FaMapMarkerAlt className="text-emerald-600" />
+                <FaMapMarkerAlt className="text-[#6B8A62]" />
                 <span className="text-gray-700">{restaurant.address}</span>
               </div>
               <div className="flex items-center gap-3">
-                <FaPhone className="text-emerald-600" />
+                <FaPhone className="text-[#6B8A62]" />
                 <span className="text-gray-700">{restaurant.phone}</span>
               </div>
               <div className="flex items-center gap-3">
-                <FaClock className="text-emerald-600" />
+                <FaClock className="text-[#6B8A62]" />
                 <span className="text-gray-700">{restaurant.hours}</span>
               </div>
               {restaurant.website && (
                 <div className="flex items-center gap-3">
-                  <FaGlobe className="text-emerald-600" />
+                  <FaGlobe className="text-[#6B8A62]" />
                   <a 
                     href={`https://${restaurant.website}`} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-emerald-600 hover:text-emerald-700 hover:underline"
+                    className="text-[#6B8A62] hover:text-[#5A7352] hover:underline"
                   >
                     {restaurant.website}
                   </a>
@@ -191,7 +191,7 @@ export default function RestaurantDetails({ isAdmin = false, onEditRestaurant }:
             <div className="flex gap-4 mt-8">
               <Button
                 color="success"
-                className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 px-8 py-3"
+                className="bg-gradient-to-r from-[#6B8A62] to-[#5A7352] hover:from-[#5A7352] hover:to-[#4A5C42] px-8 py-3"
                 onClick={() => {
                   // Navigate to booking - will implement later
                   console.log('Navigate to booking for restaurant:', restaurant.id);
@@ -215,7 +215,7 @@ export default function RestaurantDetails({ isAdmin = false, onEditRestaurant }:
               {!isAuthenticated && (
                 <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
                   <p className="text-sm text-amber-700">
-                    Please <Link to="/login" className="text-emerald-600 hover:underline">log in</Link> to write a review.
+                    Please <Link to="/login" className="text-[#6B8A62] hover:underline">log in</Link> to write a review.
                   </p>
                 </div>
               )}
@@ -243,7 +243,7 @@ export default function RestaurantDetails({ isAdmin = false, onEditRestaurant }:
                     value={newReview.comment}
                     onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
                     rows={4}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6B8A62] focus:border-[#6B8A62]"
                     placeholder="Share your experience..."
                     required
                   />
@@ -253,7 +253,7 @@ export default function RestaurantDetails({ isAdmin = false, onEditRestaurant }:
                     type="submit"
                     color="success"
                     disabled={submittingReview || !isAuthenticated}
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-2 bg-[#6B8A62] hover:bg-[#5A7352]"
                   >
                     {submittingReview && <Spinner size="sm" />}
                     Submit Review

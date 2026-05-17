@@ -6,7 +6,7 @@ import { HiLockClosed, HiEye, HiEyeOff } from 'react-icons/hi';
 import { resetPassword } from '../../services/auth';
 import * as yup from 'yup';
 
-const StyledLockIcon = () => <HiLockClosed className="text-green-900" />;
+const StyledLockIcon = () => <HiLockClosed className="text-[#6B8A62]" />;
 
 interface FormData {
   newPassword: string;
@@ -45,8 +45,8 @@ const calculatePasswordStrength = (password: string): { score: number; label: st
     1: { score: 1, label: 'Weak', color: 'bg-orange-500' },
     2: { score: 2, label: 'Fair', color: 'bg-yellow-500' },
     3: { score: 3, label: 'Good', color: 'bg-blue-500' },
-    4: { score: 4, label: 'Strong', color: 'bg-green-500' },
-    5: { score: 5, label: 'Very Strong', color: 'bg-green-700' },
+    4: { score: 4, label: 'Strong', color: 'bg-[#6B8A62]' },
+    5: { score: 5, label: 'Very Strong', color: 'bg-[#5A7352]' },
   };
   
   return strengthMap[Math.min(score, 5)] || strengthMap[0];
@@ -180,8 +180,8 @@ export default function ResetPassword() {
       <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
         <Card className="w-full max-w-md">
           <div className="text-center">
-            <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
-              <HiLockClosed className="h-6 w-6 text-green-600" />
+            <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-[#6B8A62]/10 mb-4">
+              <HiLockClosed className="h-6 w-6 text-[#6B8A62]" />
             </div>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
               Password Reset Successful
@@ -191,7 +191,7 @@ export default function ResetPassword() {
             </p>
             <Link
               to={APP_ROUTES.login}
-              className="inline-flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-900 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
+              className="inline-flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#6B8A62] hover:bg-[#5A7352] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#6B8A62] transition-colors"
             >
               Go to Login
             </Link>
@@ -205,7 +205,7 @@ export default function ResetPassword() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
       <Card className="w-full max-w-md">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-green-900 md:text-3xl">
+          <h1 className="text-2xl font-bold text-[#6B8A62] md:text-3xl">
             Reset Your Password
           </h1>
           <p className="mt-2 text-sm text-gray-600">
@@ -314,7 +314,7 @@ export default function ResetPassword() {
           <button 
             type="submit" 
             disabled={isLoading || !token || !email}
-            className="mt-4 w-full bg-green-900 text-white py-3 px-6 rounded-lg hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 transition-all cursor-pointer font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            className="mt-4 w-full bg-[#6B8A62] text-white py-3 px-6 rounded-lg hover:bg-[#5A7352] focus:outline-none focus:ring-2 focus:ring-[#6B8A62] transition-all cursor-pointer font-medium disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <span className="flex items-center justify-center gap-2">
@@ -328,7 +328,7 @@ export default function ResetPassword() {
 
           <p className="text-center text-sm text-gray-600">
             Remember your password?{' '}
-            <Link to={APP_ROUTES.login} className="text-green-600 hover:underline">
+            <Link to={APP_ROUTES.login} className="text-[#6B8A62] hover:underline">
               Back to Login
             </Link>
           </p>

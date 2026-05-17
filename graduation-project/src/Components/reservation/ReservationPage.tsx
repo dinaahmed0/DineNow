@@ -26,14 +26,6 @@ import FoodOrderingStep from './FoodOrderingStep';
 import { createReservation } from '../../services/reservation';
 import { useAuth } from '../../contexts/AuthContext';
 
-// In ReservationPage.tsx, before the API call
-// const token = localStorage.getItem('token');
-// console.log('Has token?', !!token);
-// console.log('Token value:', token?.substring(0, 20) + '...');
-
-
-
-
 const combineDateAndTime = (dateString: string, timeString: string): Date => {
   const date = new Date(dateString);
   const match = timeString.match(/(\d+):(\d+)\s*(AM|PM)/i);
@@ -319,12 +311,12 @@ export default function ReservationPage() {
               <span>{step === 1 ? 'Back' : 'Previous'}</span>
             </button>
             <div className="flex items-center gap-3">
-              <div className={`text-sm ${step >= 1 ? 'text-emerald-600' : 'text-gray-400'}`}>
+              <div className={`text-sm ${step >= 1 ? 'text-[#6B8A62]' : 'text-gray-400'}`}>
                 Step {step} of 3
               </div>
               <div className="w-24 h-1 bg-gray-200 rounded-full overflow-hidden">
                 <div 
-                  className="h-full bg-emerald-600 transition-all duration-300"
+                  className="h-full bg-[#6B8A62] transition-all duration-300"
                   style={{ width: `${(step / 3) * 100}%` }}
                 />
               </div>
@@ -370,15 +362,15 @@ export default function ReservationPage() {
 
                   <div className="border-t border-gray-100 pt-4 space-y-2">
                     <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <FaUtensils className="text-emerald-600" />
+                      <FaUtensils className="text-[#6B8A62]" />
                       <span>Italian • Mediterranean • Seafood</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <FaRegClock className="text-emerald-600" />
+                      <FaRegClock className="text-[#6B8A62]" />
                       <span>Open Today: 12:00 PM - 11:00 PM</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <FaPhone className="text-emerald-600" />
+                      <FaPhone className="text-[#6B8A62]" />
                       <span>+20 123 456 7890</span>
                     </div>
                   </div>
@@ -407,13 +399,12 @@ export default function ReservationPage() {
                 // Step 1: Booking Details
                 <div className="space-y-6">
                   <div className="text-center mb-8">
-                    <h1 className="text-2xl font-bold text-gray-900 mb-2">Make a <span className='text-emerald-700'>Reservation</span></h1>
-                    {/* <p className="text-gray-600">Choose your dining preferences</p> */}
+                    <h1 className="text-2xl font-bold text-gray-900 mb-2">Make a <span className='text-[#6B8A62]'>Reservation</span></h1>
                   </div>
 
                   {/* Party Size */}
                   <div>
-                    <label className="block text-sm font-semibold text-emerald-700 mb-3">
+                    <label className="block text-sm font-semibold text-[#6B8A62] mb-3">
                       What is your Party Size?
                     </label>
                     <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
@@ -424,8 +415,8 @@ export default function ReservationPage() {
                           onClick={() => handleInputChange('partySize', num)}
                           className={`flex flex-col items-center gap-1 py-3 rounded-lg border-2 transition-all ${
                             formData.partySize === num
-                              ? 'border-emerald-600 bg-emerald-50 text-emerald-700'
-                              : 'border-gray-200 hover:border-emerald-500 text-gray-600'
+                              ? 'border-[#6B8A62] bg-[#6B8A62]/10 text-[#6B8A62]'
+                              : 'border-gray-200 hover:border-[#6B8A62] text-gray-600'
                           }`}
                         >
                           <FaUsers className="text-lg" />
@@ -437,8 +428,8 @@ export default function ReservationPage() {
                         onClick={() => handleInputChange('partySize', '9+')}
                         className={`py-3 rounded-lg border-2 transition-all col-span-2 ${
                           formData.partySize === '9+'
-                            ? 'border-emerald-600 bg-emerald-50 text-emerald-700'
-                            : 'border-gray-200 hover:border-emerald-500 text-gray-600'
+                            ? 'border-[#6B8A62] bg-[#6B8A62]/10 text-[#6B8A62]'
+                            : 'border-gray-200 hover:border-[#6B8A62] text-gray-600'
                         }`}
                       >
                         9+ Guests
@@ -449,7 +440,7 @@ export default function ReservationPage() {
 
                   {/* Date Selection */}
                   <div>
-                    <label className="block text-sm font-semibold text-emerald-700 mb-3">
+                    <label className="block text-sm font-semibold text-[#6B8A62] mb-3">
                       Which Date would you like to reserve?
                     </label>
                     <div className="max-h-50 overflow-y-auto">
@@ -466,8 +457,8 @@ export default function ReservationPage() {
                               onClick={() => handleInputChange('date', date.toDateString())}
                               className={`text-center py-3 px-2 rounded-lg border-2 transition-all ${
                                 isSelected
-                                  ? 'border-emerald-600 bg-emerald-50 text-emerald-700'
-                                  : 'border-gray-200 hover:border-emerald-500'
+                                  ? 'border-[#6B8A62] bg-[#6B8A62]/10 text-[#6B8A62]'
+                                  : 'border-gray-200 hover:border-[#6B8A62]'
                               }`}
                             >
                               <div className="text-xs font-medium">
@@ -480,7 +471,7 @@ export default function ReservationPage() {
                                 {isToday ? 'Today' : date.toLocaleDateString('en-US', { month: 'short' })}
                               </div>
                               {isNewMonth && !isToday && (
-                                <div className="text-xs font-semibold text-emerald-600 mt-1">
+                                <div className="text-xs font-semibold text-[#6B8A62] mt-1">
                                   {date.toLocaleDateString('en-US', { month: 'short' })}
                                 </div>
                               )}
@@ -497,7 +488,7 @@ export default function ReservationPage() {
 
                   {/* Time Selection */}
                   <div>
-                    <label className="block text-sm font-semibold text-emerald-700 mb-3">
+                    <label className="block text-sm font-semibold text-[#6B8A62] mb-3">
                       Select Time
                     </label>
                     <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
@@ -509,9 +500,9 @@ export default function ReservationPage() {
                           onClick={() => slot.available && handleInputChange('time', slot.time)}
                           className={`py-2 px-3 rounded-lg border-2 transition-all ${
                             formData.time === slot.time
-                              ? 'border-emerald-600 bg-emerald-50 text-emerald-700'
+                              ? 'border-[#6B8A62] bg-[#6B8A62]/10 text-[#6B8A62]'
                               : slot.available
-                              ? 'border-gray-200 hover:border-emerald-500 text-gray-700'
+                              ? 'border-gray-200 hover:border-[#6B8A62] text-gray-700'
                               : 'border-gray-100 bg-gray-50 text-gray-300 cursor-not-allowed'
                           }`}
                         >
@@ -525,7 +516,7 @@ export default function ReservationPage() {
 
                   {/* Duration Selection */}
                   <div>
-                    <label className="block text-sm font-semibold text-emerald-700 mb-3">
+                    <label className="block text-sm font-semibold text-[#6B8A62] mb-3">
                       How long would you be staying?
                     </label>
                     <div className="grid grid-cols-4 gap-2">
@@ -536,8 +527,8 @@ export default function ReservationPage() {
                           onClick={() => handleInputChange('durationHours', hours)}
                           className={`py-2 px-3 rounded-lg border-2 transition-all ${
                             formData.durationHours === hours
-                              ? 'border-emerald-600 bg-emerald-50 text-emerald-700'
-                              : 'border-gray-200 hover:border-emerald-500 text-gray-700'
+                              ? 'border-[#6B8A62] bg-[#6B8A62]/10 text-[#6B8A62]'
+                              : 'border-gray-200 hover:border-[#6B8A62] text-gray-700'
                           }`}
                         >
                           {hours}h
@@ -548,7 +539,7 @@ export default function ReservationPage() {
 
                   {/* Occasion (Optional) */}
                   <div>
-                    <label className="block text-sm font-semibold text-emerald-700 mb-3">
+                    <label className="block text-sm font-semibold text-[#6B8A62] mb-3">
                       Are you here for an Occasion? (Optional)
                     </label>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
@@ -559,8 +550,8 @@ export default function ReservationPage() {
                           onClick={() => handleInputChange('occasion', occasion.value)}
                           className={`flex items-center justify-center gap-2 py-2 px-3 rounded-lg border transition-all ${
                             formData.occasion === occasion.value
-                              ? 'border-emerald-600 bg-emerald-50 text-emerald-700'
-                              : 'border-gray-200 hover:border-emerald-500 text-gray-600'
+                              ? 'border-[#6B8A62] bg-[#6B8A62]/10 text-[#6B8A62]'
+                              : 'border-gray-200 hover:border-[#6B8A62] text-gray-600'
                           }`}
                         >
                           <span className="text-sm">{occasion.label}</span>
@@ -571,7 +562,7 @@ export default function ReservationPage() {
 
                   {/* Seating Preference */}
                   <div>
-                    <label className="block text-sm font-semibold text-emerald-700 mb-3">
+                    <label className="block text-sm font-semibold text-[#6B8A62] mb-3">
                       Do you have a Seating Preference? (Optional)
                     </label>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -584,12 +575,12 @@ export default function ReservationPage() {
                             onClick={() => handleInputChange('seatingPreference', pref.value)}
                             className={`flex items-center gap-3 p-3 rounded-lg border-2 transition-all ${
                               formData.seatingPreference === pref.value
-                                ? 'border-emerald-600 bg-emerald-50'
-                                : 'border-gray-200 hover:border-emerald-500'
+                                ? 'border-[#6B8A62] bg-[#6B8A62]/10'
+                                : 'border-gray-200 hover:border-[#6B8A62]'
                             }`}
                           >
                             <div className={`text-xl ${
-                              formData.seatingPreference === pref.value ? 'text-emerald-600' : 'text-gray-400'
+                              formData.seatingPreference === pref.value ? 'text-[#6B8A62]' : 'text-gray-400'
                             }`}>
                               <IconComponent />
                             </div>
@@ -606,7 +597,7 @@ export default function ReservationPage() {
                   <div className="pt-6">
                     <button
                       onClick={handleNext}
-                      className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-lg font-semibold transition-all transform hover:scale-105 duration-300"
+                      className="w-full bg-[#6B8A62] hover:bg-[#5A7352] text-white py-3 rounded-lg font-semibold transition-all transform hover:scale-105 duration-300"
                     >
                       Next →
                     </button>
@@ -630,7 +621,7 @@ export default function ReservationPage() {
                     </button>
                     <button
                       onClick={handleNext}
-                      className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-lg font-semibold transition-all transform hover:scale-105 duration-300"
+                      className="flex-1 bg-[#6B8A62] hover:bg-[#5A7352] text-white py-3 rounded-lg font-semibold transition-all transform hover:scale-105 duration-300"
                     >
                       Next →
                     </button>
@@ -640,20 +631,19 @@ export default function ReservationPage() {
                 // Step 3: Final confirmation
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="text-center mb-8">
-                    <h1 className="text-2xl font-bold text-gray-900 mb-2">Confirm Your <span className='text-emerald-700'>Booking</span></h1>
-                    {/* <p className="text-gray-600">Your request is pending please wait for the restaurant to confirm your reservation.</p> */}
+                    <h1 className="text-2xl font-bold text-gray-900 mb-2">Confirm Your <span className='text-[#6B8A62]'>Booking</span></h1>
                   </div>
 
                   <div>
-                    <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4 text-center">
+                    <div className="bg-[#6B8A62]/10 border border-[#6B8A62]/20 rounded-lg p-4 text-center">
                       <p className="text-sm font-medium text-gray-800">Request will be submitted as:</p>
-                      <p className="text-sm text-emerald-700 mt-1">{formData.email || 'No account email found'}</p>
+                      <p className="text-sm text-[#6B8A62] mt-1">{formData.email || 'No account email found'}</p>
                     </div>
                     {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-emerald-700 mb-2">
+                    <label className="block text-sm font-medium text-[#6B8A62] mb-2">
                       Any Special Requests? (Optional)
                     </label>
                     <textarea
@@ -661,7 +651,7 @@ export default function ReservationPage() {
                       value={formData.specialRequests}
                       onChange={(e) => handleInputChange('specialRequests', e.target.value)}
                       placeholder="Dietary restrictions, allergies, or anything we should know?"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6B8A62] focus:border-[#6B8A62] outline-none transition"
                     />
                   </div>
 
@@ -671,7 +661,7 @@ export default function ReservationPage() {
                         type="checkbox"
                         checked={formData.reminder}
                         onChange={(e) => handleInputChange('reminder', e.target.checked)}
-                        className="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500"
+                        className="w-4 h-4 text-[#6B8A62] border-gray-300 rounded focus:ring-[#6B8A62]"
                       />
                       <span className="text-sm text-gray-700">
                         📧 Send me email reminder 24 hours before
@@ -682,7 +672,7 @@ export default function ReservationPage() {
                         type="checkbox"
                         checked={formData.smsReminder}
                         onChange={(e) => handleInputChange('smsReminder', e.target.checked)}
-                        className="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500"
+                        className="w-4 h-4 text-[#6B8A62] border-gray-300 rounded focus:ring-[#6B8A62]"
                       />
                       <span className="text-sm text-gray-700">
                         📱 Send me SMS reminder 1 hour before
@@ -692,10 +682,10 @@ export default function ReservationPage() {
 
                   <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl border border-gray-200 overflow-hidden shadow-sm">
                   {/* Header */}
-                  <div className="bg-emerald-600 px-5 py-3">
+                  <div className="bg-[#6B8A62] px-5 py-3">
                     <div className="flex justify-between items-center">
                       <h3 className="font-semibold text-white">Booking Summary</h3>
-                      <span className="text-xs text-emerald-100 bg-emerald-700/50 px-2 py-1 rounded-full">
+                      <span className="text-xs text-[#6B8A62]/80 bg-white/20 px-2 py-1 rounded-full">
                         Tax included
                       </span>
                     </div>
@@ -707,7 +697,6 @@ export default function ReservationPage() {
                     <div className="flex justify-between items-start border-b border-gray-200 pb-3">
                       <div>
                         <p className="font-bold text-gray-900 text-lg">{restaurantData.name}</p>
-                        {/* <p className="text-xs text-gray-500 mt-0.5">Restaurant</p> */}
                       </div>
                       <div className=" text-center">
                         <p className="font-semibold text-gray-900">{formData.date}</p>
@@ -762,7 +751,7 @@ export default function ReservationPage() {
                         <div className="border-t border-amber-200 mt-3 pt-3">
                           <div className="flex justify-between items-center">
                             <span className="text-sm font-semibold text-gray-800">Food Subtotal</span>
-                            <span className="text-lg font-bold text-emerald-600">
+                            <span className="text-lg font-bold text-[#6B8A62]">
                               ${calculateFoodTotal().toFixed(2)}
                             </span>
                           </div>
@@ -771,7 +760,7 @@ export default function ReservationPage() {
                     )}
 
                     {/* Total Section */}
-                    <div className="bg-emerald-50 rounded-lg p-4 border border-emerald-200">
+                    <div className="bg-[#6B8A62]/10 rounded-lg p-4 border border-[#6B8A62]/20">
                       <div className="flex justify-between items-center">
                         <div>
                           <p className="font-bold text-gray-900">
@@ -784,14 +773,11 @@ export default function ReservationPage() {
                           </p>
                         </div>
                         <div className="text-right">
-                          <p className="text-2xl font-bold text-emerald-700">
+                          <p className="text-2xl font-bold text-[#6B8A62]">
                             {orderedFood.length > 0 
                               ? `$${calculateFoodTotal().toFixed(2)}`
                               : '$0.00'}
                           </p>
-                          {/* {orderedFood.length === 0 && (
-                            <p className="text-xs text-emerald-600">Free reservation</p>
-                          )} */}
                         </div>
                       </div>
                     </div>
@@ -805,19 +791,19 @@ export default function ReservationPage() {
 
                   {/* Payment Options for Food Orders */}
                   {orderedFood.length > 0 && !paymentCompleted && (
-                    <div className="bg-emerald-50 rounded-lg p-4 border border-emerald-200">
+                    <div className="bg-[#6B8A62]/10 rounded-lg p-4 border border-[#6B8A62]/20">
                       <div className="flex items-center justify-between mb-3">
                         <div>
-                          <h4 className="font-semibold text-emerald-800">Required Deposit</h4>
-                          <p className="text-sm text-emerald-600">50% deposit required for pre-orders</p>
+                          <h4 className="font-semibold text-[#6B8A62]">Required Deposit</h4>
+                          <p className="text-sm text-[#6B8A62]">50% deposit required for pre-orders</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-lg font-bold text-emerald-900">${(calculateFoodTotal() * 0.5).toFixed(2)}</p>
-                          <p className="text-xs text-emerald-600">Deposit amount</p>
+                          <p className="text-lg font-bold text-[#6B8A62]">${(calculateFoodTotal() * 0.5).toFixed(2)}</p>
+                          <p className="text-xs text-[#6B8A62]">Deposit amount</p>
                         </div>
                       </div>
-                      <div className="bg-emerald-100 rounded-lg p-3 mb-3">
-                        <p className="text-sm text-emerald-700">
+                      <div className="bg-[#6B8A62]/20 rounded-lg p-3 mb-3">
+                        <p className="text-sm text-[#6B8A62]">
                           <strong>Note:</strong> A 50% deposit is required for all food orders. Payment does not auto-confirm the reservation; admin approval is still required.
                         </p>
                       </div>
@@ -825,14 +811,14 @@ export default function ReservationPage() {
                         <button
                           type="button"
                           onClick={() => setShowPayment(true)}
-                          className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 px-4 rounded-lg font-semibold transition-all flex items-center justify-center gap-2"
+                          className="w-full bg-[#6B8A62] hover:bg-[#5A7352] text-white py-2 px-4 rounded-lg font-semibold transition-all flex items-center justify-center gap-2"
                         >
                           <FaCreditCard className="text-sm" />
                           Pay Deposit Now
                         </button>
                       ) : (
                         <div className="text-center py-2">
-                          <p className="text-sm text-emerald-600 font-medium">Please complete payment below</p>
+                          <p className="text-sm text-[#6B8A62] font-medium">Please complete payment below</p>
                         </div>
                       )}
                     </div>
@@ -840,8 +826,8 @@ export default function ReservationPage() {
 
                   {/* Payment Success */}
                   {orderedFood.length > 0 && paymentCompleted && (
-                    <div className="bg-green-100 rounded-lg p-4 border border-green-200">
-                      <div className="flex items-center gap-2 text-green-700">
+                    <div className="bg-[#6B8A62]/20 rounded-lg p-4 border border-[#6B8A62]/30">
+                      <div className="flex items-center gap-2 text-[#6B8A62]">
                         <FaCreditCard className="text-lg" />
                         <div>
                           <p className="font-semibold">Deposit Paid</p>
@@ -873,7 +859,7 @@ export default function ReservationPage() {
                       <button
                         type="submit"
                         disabled={isSubmitting || (orderedFood.length > 0 && !paymentCompleted)}
-                        className="flex-1 bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-300 text-white py-3 rounded-lg font-semibold transition-all transform hover:scale-105 duration-300 flex items-center justify-center gap-2"
+                        className="flex-1 bg-[#6B8A62] hover:bg-[#5A7352] disabled:bg-gray-300 text-white py-3 rounded-lg font-semibold transition-all transform hover:scale-105 duration-300 flex items-center justify-center gap-2"
                       >
                         {isSubmitting ? (
                           <>
@@ -906,4 +892,4 @@ export default function ReservationPage() {
       </div>
     </div>
   );
-} 
+}

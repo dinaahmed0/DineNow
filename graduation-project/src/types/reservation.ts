@@ -40,8 +40,37 @@ export interface UserReservationsFilters {
   pageSize?: number;
 }
 
+export interface ReservationStaffItem {
+  id: number;
+  userName: string;
+  tableNumber: number;
+  startDateTime: string;
+  endDateTime: string;
+  numberOfGuests: number;
+  status: string;
+  assignedAt?: string;
+  assignedBy?: string;
+  notes: string;
+  createdAt: string;
+}
+
+export interface ReservationSuggestion {
+  suggestionId: number;
+  tableNumber: number;
+  startTime: string;
+  endTime: string;
+  expiresAt: string;
+}
+
+export interface ReservationIdCommand {
+  reservationId: number;
+}
+
 export type ReservationCreateResponse = ApiResponse<CreateReservationCommand>;
 export type ReservationUserDetailsResponse = ApiResponse<ReservationUserItem>;
 export type ReservationUserListResponse = ApiResponse<PaginationData<ReservationUserItem>>;
+export type ReservationStaffDetailsResponse = ApiResponse<ReservationStaffItem>;
+export type ReservationStaffListResponse = ApiResponse<PaginationData<ReservationStaffItem>>;
 export type ReservationActionResponse = ApiResponse<string>;
+export type ReservationSuggestionsResponse = ApiResponse<ReservationSuggestion[]>;
 

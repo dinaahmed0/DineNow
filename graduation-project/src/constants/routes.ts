@@ -21,3 +21,18 @@ export const APP_ROUTES = {
   cafes: '/cafes',
 } as const;
 
+/** Routes accessible without authentication */
+export const PUBLIC_ROUTES: readonly string[] = [
+  APP_ROUTES.home,
+  APP_ROUTES.login,
+  APP_ROUTES.signup,
+  APP_ROUTES.forgotPassword,
+  APP_ROUTES.resetPassword,
+  APP_ROUTES.changePassword,
+  APP_ROUTES.confirmEmail,
+];
+
+export function isPublicRoute(pathname: string): boolean {
+  return PUBLIC_ROUTES.includes(pathname);
+}
+

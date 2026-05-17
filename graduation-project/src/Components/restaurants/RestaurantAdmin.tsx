@@ -137,8 +137,7 @@ export default function RestaurantAdmin() {
         </div>
         <Button
           onClick={handleAddRestaurant}
-          color="success"
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 bg-[#6B8A62] hover:bg-[#5A7352]"
         >
           <FaPlus />
           Add New Restaurant
@@ -191,7 +190,7 @@ export default function RestaurantAdmin() {
                   />
                 )}
                 <div className="absolute top-3 left-3">
-                  <Badge color={restaurant.isActive ? 'success' : 'warning'} className="bg-emerald-600">
+                  <Badge color={restaurant.isActive ? 'success' : 'warning'} className="bg-[#6B8A62]">
                     {restaurant.cuisine}
                   </Badge>
                 </div>
@@ -300,11 +299,11 @@ export default function RestaurantAdmin() {
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Summary</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div className="text-center">
-              <div className="text-2xl font-bold text-emerald-600">{pagination.totalCount}</div>
+              <div className="text-2xl font-bold text-[#6B8A62]">{pagination.totalCount}</div>
               <div className="text-sm text-gray-500">Total Restaurants</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-emerald-600">
+              <div className="text-2xl font-bold text-[#6B8A62]">
                 {restaurants.filter(r => r.isActive).length}
               </div>
               <div className="text-sm text-gray-500">Active</div>

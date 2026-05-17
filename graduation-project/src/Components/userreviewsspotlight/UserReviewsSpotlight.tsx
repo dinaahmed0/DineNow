@@ -188,7 +188,7 @@ export default function UserReviewsSpotlight() {
         {/* Header */}
         <div className="text-center mb-3">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            What Our <span className="text-emerald-600">Customers</span> Say
+            What Our <span className="text-[#6B8A62]">Customers</span> Say
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-8">
             Discover why thousands of food lovers trust DineNow for their restaurant reservations.
@@ -203,7 +203,7 @@ export default function UserReviewsSpotlight() {
             {visibleReviews.map((review) => (
               <div
                 key={review.id}
-                className="bg-white rounded-xl shadow-md shadow-emerald-100 hover:shadow-xl transition-all duration-300 overflow-hidden transform hover:scale-105"
+                className="bg-white rounded-xl shadow-md shadow-[#6B8A62]/10 hover:shadow-xl transition-all duration-300 overflow-hidden transform hover:scale-105"
               >
                 {/* Review Content */}
                 <div className="px-4 py-2">
@@ -223,7 +223,7 @@ export default function UserReviewsSpotlight() {
 
                   {/* Review Text */}
                   <div className="relative mb-2">
-                    <FaQuoteLeft className="text-emerald-200 text-2xl absolute -top-2 -left-2" />
+                    <FaQuoteLeft className="text-[#6B8A62]/20 text-2xl absolute -top-2 -left-2" />
                     <p className="text-gray-700 leading-relaxed pl-6">
                       {review.reviewText}
                     </p>
@@ -233,14 +233,11 @@ export default function UserReviewsSpotlight() {
                   <div className="flex justify-end gap-2 mb-4">
                     <button 
                       onClick={() => handleShareReview(review)}
-                      className="text-sm text-emerald-600 hover:text-emerald-700 font-medium"
+                      className="text-sm text-[#6B8A62] hover:text-[#5A7352] font-medium"
                     >
                       <FaShare className="inline mr-1" />
                       Share
                     </button>
-                    {/* <button className="text-sm text-emerald-600 hover:text-emerald-700 font-medium">
-                      Read More →
-                    </button> */}
                   </div>
 
                   {/* Bottom Section - Restaurant Info and Favorite */}
@@ -251,7 +248,7 @@ export default function UserReviewsSpotlight() {
                         {review.restaurantName}
                       </h3>
                       <div className="flex items-center gap-2 text-sm text-gray-600 mt-1">
-                        <FaMapMarkerAlt className="text-emerald-600" />
+                        <FaMapMarkerAlt className="text-[#6B8A62]" />
                         <span>{review.location}</span>
                       </div>
                     </div>
@@ -262,7 +259,7 @@ export default function UserReviewsSpotlight() {
                       className={`flex items-center gap-1 text-sm transition ${
                         likedReviews.has(review.id) 
                           ? 'text-red-600 hover:text-red-700' 
-                          : 'text-gray-600 hover:text-emerald-600'
+                          : 'text-gray-600 hover:text-[#6B8A62]'
                       }`}
                     >
                       <FaHeart className={likedReviews.has(review.id) ? 'text-red-600' : ''} />
@@ -279,17 +276,17 @@ export default function UserReviewsSpotlight() {
             <>
               <button
                 onClick={prevSlide}
-                className="absolute -left-15 top-1/2 -translate-y-1/2 bg-emerald-50 rounded-full p-3 shadow-lg hover:shadow-xl transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
+                className="absolute -left-15 top-1/2 -translate-y-1/2 bg-[#6B8A62]/10 rounded-full p-3 shadow-lg hover:shadow-xl transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={currentIndex === 0}
               >
-                <FaChevronLeft className="text-emerald-700" />
+                <FaChevronLeft className="text-[#6B8A62]" />
               </button>
               <button
                 onClick={nextSlide}
-                className="absolute -right-15 top-1/2 -translate-y-1/2 bg-emerald-50 rounded-full p-3 shadow-lg hover:shadow-xl transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
+                className="absolute -right-15 top-1/2 -translate-y-1/2 bg-[#6B8A62]/10 rounded-full p-3 shadow-lg hover:shadow-xl transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={currentIndex >= processedReviews.length - 3}
               >
-                <FaChevronRight className="text-emerald-700" />
+                <FaChevronRight className="text-[#6B8A62]" />
               </button>
             </>
           )}
@@ -301,7 +298,7 @@ export default function UserReviewsSpotlight() {
             Had a great experience at one of our restaurants?
           </p>
           <Link to= "/profile?tab=past">
-          <button className="bg-gradient-to-r from-emerald-600 to-emerald-700  hover:shadow-lg hover:scale-105 transition-all duration-300 text-white px-8 py-3 rounded-lg font-bold">
+          <button className="bg-gradient-to-r from-[#6B8A62] to-[#5A7352] hover:shadow-lg hover:scale-105 transition-all duration-300 text-white px-8 py-3 rounded-lg font-bold">
             Share Your Feedback →
           </button>
           </Link>
